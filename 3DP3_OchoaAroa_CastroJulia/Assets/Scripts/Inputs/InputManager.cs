@@ -17,7 +17,8 @@ public class InputManager : MonoBehaviour
     
     public float MouseScrollY { private set; get; }
     public Vector2 MovementInput { private set; get; }
-    public Vector2 MouseInput { private set; get; }
+    public Vector2 MousePosition { private set; get; }
+    public Vector2 MouseDelta { private set; get; }
     
     private void Awake()
     {
@@ -33,7 +34,8 @@ public class InputManager : MonoBehaviour
         {
             _actions = new InputActions();
             _actions.Main.Movement.performed += i => MovementInput = i.ReadValue<Vector2>();
-            _actions.Main.MousePosition.performed += i => MovementInput = i.ReadValue<Vector2>();
+            _actions.Main.MousePosition.performed += i => MousePosition = i.ReadValue<Vector2>();
+            _actions.Main.MouseDelta.performed += i => MouseDelta = i.ReadValue<Vector2>();
             _actions.Main.MouseScrollY.performed += i => MouseScrollY = i.ReadValue<float>();
         }
 

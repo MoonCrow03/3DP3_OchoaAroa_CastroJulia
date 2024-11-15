@@ -69,6 +69,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "MouseDelta",
+                    "type": "PassThrough",
+                    "id": "744fad18-cbce-4c35-bc38-90a0340f48f4",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "MousePosition",
                     "type": "Value",
                     "id": "4b004b83-24c1-43e9-b890-44f1ed11c1e6",
@@ -345,6 +354,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "MouseScrollY",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8ec9de5-1d06-47ef-ae69-00e93e768342",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "78ba9663-5656-4bcb-8ef3-70360fbffa4c",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseDelta",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -10,8 +10,7 @@ public class PlayerController : MonoBehaviour, IStartGameElement
 	[Header("Movement Settings")]
 	[SerializeField] private float m_WalkSpeed = 5f;
 	[SerializeField] private float m_RunSpeed = 10f;
-	
-	[Header("Jump Settings")]
+	[SerializeField] private float m_LerpRotation = 16.0f;
 	
 	[Header("Components")]
 	[SerializeField] private Camera m_Camera;
@@ -23,11 +22,13 @@ public class PlayerController : MonoBehaviour, IStartGameElement
 	private Vector3 m_InitialPosition;
 	private Quaternion m_InitialRotation;
 
+	private float m_VerticalSpeed;
+
     private void Awake()
     {
 	    m_CharacterController = GetComponent<CharacterController>();
 	    m_PlayerHealthSystem = GetComponent<PlayerHealthSystem>();
-	    m_Animator = GetComponent<Animator>();
+	    m_Animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -89,15 +90,25 @@ public class PlayerController : MonoBehaviour, IStartGameElement
 				l_speed = m_WalkSpeed;
 				m_Animator.SetFloat(Speed, 0.2f);
 			}
+			
+			Quaternion l_desiredRotation = Quaternion.LookRotation(l_movement);
+			transform.rotation = Quaternion.Lerp(transform.rotation, l_desiredRotation, 
+				m_LerpRotation * Time.deltaTime);
 		}
 		else
-		{
 			m_Animator.SetFloat(Speed, 0.0f);
-		}
 		
 		l_movement *= l_speed * Time.deltaTime;
 		
-		m_CharacterController.Move(l_movement);
+		m_VerticalSpeed += Physics.gravity.y * Time.deltaTime;
+		
+		l_movement.y = m_VerticalSpeed * Time.deltaTime;
+		
+		CollisionFlags l_collisionFlags = m_CharacterController.Move(l_movement);
+
+		if ((l_collisionFlags & CollisionFlags.Below) != 0 ||
+		    (l_collisionFlags & CollisionFlags.Above) != 0 && m_VerticalSpeed > 0.0f)
+			m_VerticalSpeed = 0.0f;
     }
 
     public void TakeLive()
