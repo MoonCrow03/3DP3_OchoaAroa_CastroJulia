@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IStartGameElement
 {
-	[Header("Settings")]
+	private static readonly int Speed = Animator.StringToHash("Speed");
+
+	[Header("Movement Settings")]
 	[SerializeField] private float m_WalkSpeed = 5f;
 	[SerializeField] private float m_RunSpeed = 10f;
+	
+	[Header("Jump Settings")]
 	
 	[Header("Components")]
 	[SerializeField] private Camera m_Camera;
@@ -78,17 +82,17 @@ public class PlayerController : MonoBehaviour, IStartGameElement
 			if (InputManager.Instance.Shift.Hold)
 			{
 				l_speed = m_RunSpeed;
-				m_Animator.SetFloat("Speed", 0.0f);
+				m_Animator.SetFloat(Speed, 1.0f);
 			}
 			else
 			{
 				l_speed = m_WalkSpeed;
-				m_Animator.SetFloat("Speed", 0.0f);
+				m_Animator.SetFloat(Speed, 0.2f);
 			}
 		}
 		else
 		{
-			m_Animator.SetFloat("Speed", 0.0f);
+			m_Animator.SetFloat(Speed, 0.0f);
 		}
 		
 		l_movement *= l_speed * Time.deltaTime;
