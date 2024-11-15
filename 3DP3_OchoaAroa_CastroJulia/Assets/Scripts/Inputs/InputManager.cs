@@ -11,9 +11,9 @@ public class InputManager : MonoBehaviour
 
     public ButtonInputHandler Up, Down, Left, Right;
 
-    public ButtonInputHandler LeftClick, RightClick, MiddleClick;
+    public ButtonInputHandler LeftClick, RightClick;
 
-    public ButtonInputHandler Shift, Space, E, J, R;
+    public ButtonInputHandler Shift, Space;
     
     public float MouseScrollY { private set; get; }
     public Vector2 MovementInput { private set; get; }
@@ -33,7 +33,7 @@ public class InputManager : MonoBehaviour
         {
             _actions = new InputActions();
             _actions.Main.Movement.performed += i => MovementInput = i.ReadValue<Vector2>();
-            _actions.Main.View.performed += i => MovementInput = i.ReadValue<Vector2>();
+            _actions.Main.MousePosition.performed += i => MovementInput = i.ReadValue<Vector2>();
             _actions.Main.MouseScrollY.performed += i => MouseScrollY = i.ReadValue<float>();
         }
 
@@ -57,12 +57,6 @@ public class InputManager : MonoBehaviour
 
         LeftClick = new ButtonInputHandler(_actions.Main.LeftClick);
         RightClick = new ButtonInputHandler(_actions.Main.RightClick);
-        MiddleClick = new ButtonInputHandler(_actions.Main.MiddleClick);
-        
-        E = new ButtonInputHandler(_actions.Main.E);
-
-        J = new ButtonInputHandler(_actions.Main.J);
-        R = new ButtonInputHandler(_actions.Main.R);
     }
 }
 

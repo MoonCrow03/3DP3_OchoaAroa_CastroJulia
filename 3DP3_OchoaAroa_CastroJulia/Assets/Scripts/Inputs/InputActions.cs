@@ -31,7 +31,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Movement"",
                     ""type"": ""Value"",
                     ""id"": ""30e16c3b-18fc-4ac4-a6cf-33c9db76dd65"",
-                    ""expectedControlType"": ""Vector3"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -73,51 +73,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""View"",
-                    ""type"": ""Value"",
-                    ""id"": ""4b004b83-24c1-43e9-b890-44f1ed11c1e6"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""RightClick"",
-                    ""type"": ""Button"",
-                    ""id"": ""cde3b4a2-4368-4ab0-b94c-4e7b4c64cbdd"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""LeftClick"",
-                    ""type"": ""Button"",
-                    ""id"": ""d3aed498-5d38-452d-955c-f35193ae7507"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MiddleClick"",
-                    ""type"": ""Button"",
-                    ""id"": ""435a2f4c-2e09-4876-aec6-d304b775f9dc"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MouseScrollY"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""6355dd2b-2659-4521-bf28-ca8bfaa37ce4"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Shift"",
                     ""type"": ""Button"",
                     ""id"": ""3ca9857d-d4f2-40e7-ab3b-13c8b480425e"",
@@ -136,27 +91,36 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""R"",
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""4b004b83-24c1-43e9-b890-44f1ed11c1e6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseScrollY"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""6355dd2b-2659-4521-bf28-ca8bfaa37ce4"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LeftClick"",
                     ""type"": ""Button"",
-                    ""id"": ""cbd6163a-e6f3-4f40-9111-35630e2444fc"",
+                    ""id"": ""d3aed498-5d38-452d-955c-f35193ae7507"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""J"",
+                    ""name"": ""RightClick"",
                     ""type"": ""Button"",
-                    ""id"": ""0b3e6a9d-a317-47f8-905f-903adefb4c9e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""E"",
-                    ""type"": ""Button"",
-                    ""id"": ""8a42972c-fdce-4d3f-91e1-deced27d4179"",
+                    ""id"": ""cde3b4a2-4368-4ab0-b94c-4e7b4c64cbdd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -165,7 +129,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""WASD"",
                     ""id"": ""0fee420c-b9ea-4552-87c9-fabb0734584f"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -221,8 +185,30 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""5d085219-05a4-4b67-9d0d-07c4e5185525"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""8b044744-7c73-4f79-b19e-f817714eed4b"",
                     ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b305d52a-3e93-41d3-b487-830a8e4c1c1b"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -243,8 +229,30 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""54c8f37b-ddab-4f50-acc6-b1983e7c4669"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""06890784-0ad5-41d2-86b1-5a8cb44a0c88"",
                     ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1158e011-09e5-466c-a40c-ddee63899103"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -265,8 +273,30 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""82990ee9-0b1a-49b5-8ae3-c5d464784c68"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""45952d12-e6cd-40df-891a-b0c650f153c2"",
                     ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f8e6b35-df4f-4a02-9ffa-9f6bb14e739e"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -287,23 +317,23 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a704e766-cca1-44af-bca5-10c5e91121a0"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""id"": ""1321c0f9-709c-4bce-a50a-f298f3b9c982"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""R"",
+                    ""action"": ""Space"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4639c514-b89b-4a19-ad8b-a23b2f6588e4"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""273f7c96-5def-40ee-ad89-72ae3bc9bb7e"",
+                    ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LeftClick"",
+                    ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -320,34 +350,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""273f7c96-5def-40ee-ad89-72ae3bc9bb7e"",
-                    ""path"": ""<Mouse>/position"",
+                    ""id"": ""4639c514-b89b-4a19-ad8b-a23b2f6588e4"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""View"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""857fea27-c7e8-4f1d-8066-871d64593fb5"",
-                    ""path"": ""<Keyboard>/j"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""J"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e6cbdcbf-d9ad-4acb-846e-2280e1b9cc0d"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""E"",
+                    ""action"": ""LeftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -359,17 +367,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MouseScrollY"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ce4ccc86-d6ab-4c15-8c6d-c2374e4fa564"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MiddleClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -385,16 +382,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Main_Down = m_Main.FindAction("Down", throwIfNotFound: true);
         m_Main_Left = m_Main.FindAction("Left", throwIfNotFound: true);
         m_Main_Right = m_Main.FindAction("Right", throwIfNotFound: true);
-        m_Main_View = m_Main.FindAction("View", throwIfNotFound: true);
-        m_Main_RightClick = m_Main.FindAction("RightClick", throwIfNotFound: true);
-        m_Main_LeftClick = m_Main.FindAction("LeftClick", throwIfNotFound: true);
-        m_Main_MiddleClick = m_Main.FindAction("MiddleClick", throwIfNotFound: true);
-        m_Main_MouseScrollY = m_Main.FindAction("MouseScrollY", throwIfNotFound: true);
         m_Main_Shift = m_Main.FindAction("Shift", throwIfNotFound: true);
         m_Main_Space = m_Main.FindAction("Space", throwIfNotFound: true);
-        m_Main_R = m_Main.FindAction("R", throwIfNotFound: true);
-        m_Main_J = m_Main.FindAction("J", throwIfNotFound: true);
-        m_Main_E = m_Main.FindAction("E", throwIfNotFound: true);
+        m_Main_MousePosition = m_Main.FindAction("MousePosition", throwIfNotFound: true);
+        m_Main_MouseScrollY = m_Main.FindAction("MouseScrollY", throwIfNotFound: true);
+        m_Main_LeftClick = m_Main.FindAction("LeftClick", throwIfNotFound: true);
+        m_Main_RightClick = m_Main.FindAction("RightClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -461,16 +454,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Down;
     private readonly InputAction m_Main_Left;
     private readonly InputAction m_Main_Right;
-    private readonly InputAction m_Main_View;
-    private readonly InputAction m_Main_RightClick;
-    private readonly InputAction m_Main_LeftClick;
-    private readonly InputAction m_Main_MiddleClick;
-    private readonly InputAction m_Main_MouseScrollY;
     private readonly InputAction m_Main_Shift;
     private readonly InputAction m_Main_Space;
-    private readonly InputAction m_Main_R;
-    private readonly InputAction m_Main_J;
-    private readonly InputAction m_Main_E;
+    private readonly InputAction m_Main_MousePosition;
+    private readonly InputAction m_Main_MouseScrollY;
+    private readonly InputAction m_Main_LeftClick;
+    private readonly InputAction m_Main_RightClick;
     public struct MainActions
     {
         private @InputActions m_Wrapper;
@@ -480,16 +469,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Down => m_Wrapper.m_Main_Down;
         public InputAction @Left => m_Wrapper.m_Main_Left;
         public InputAction @Right => m_Wrapper.m_Main_Right;
-        public InputAction @View => m_Wrapper.m_Main_View;
-        public InputAction @RightClick => m_Wrapper.m_Main_RightClick;
-        public InputAction @LeftClick => m_Wrapper.m_Main_LeftClick;
-        public InputAction @MiddleClick => m_Wrapper.m_Main_MiddleClick;
-        public InputAction @MouseScrollY => m_Wrapper.m_Main_MouseScrollY;
         public InputAction @Shift => m_Wrapper.m_Main_Shift;
         public InputAction @Space => m_Wrapper.m_Main_Space;
-        public InputAction @R => m_Wrapper.m_Main_R;
-        public InputAction @J => m_Wrapper.m_Main_J;
-        public InputAction @E => m_Wrapper.m_Main_E;
+        public InputAction @MousePosition => m_Wrapper.m_Main_MousePosition;
+        public InputAction @MouseScrollY => m_Wrapper.m_Main_MouseScrollY;
+        public InputAction @LeftClick => m_Wrapper.m_Main_LeftClick;
+        public InputAction @RightClick => m_Wrapper.m_Main_RightClick;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -514,36 +499,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Right.started += instance.OnRight;
             @Right.performed += instance.OnRight;
             @Right.canceled += instance.OnRight;
-            @View.started += instance.OnView;
-            @View.performed += instance.OnView;
-            @View.canceled += instance.OnView;
-            @RightClick.started += instance.OnRightClick;
-            @RightClick.performed += instance.OnRightClick;
-            @RightClick.canceled += instance.OnRightClick;
-            @LeftClick.started += instance.OnLeftClick;
-            @LeftClick.performed += instance.OnLeftClick;
-            @LeftClick.canceled += instance.OnLeftClick;
-            @MiddleClick.started += instance.OnMiddleClick;
-            @MiddleClick.performed += instance.OnMiddleClick;
-            @MiddleClick.canceled += instance.OnMiddleClick;
-            @MouseScrollY.started += instance.OnMouseScrollY;
-            @MouseScrollY.performed += instance.OnMouseScrollY;
-            @MouseScrollY.canceled += instance.OnMouseScrollY;
             @Shift.started += instance.OnShift;
             @Shift.performed += instance.OnShift;
             @Shift.canceled += instance.OnShift;
             @Space.started += instance.OnSpace;
             @Space.performed += instance.OnSpace;
             @Space.canceled += instance.OnSpace;
-            @R.started += instance.OnR;
-            @R.performed += instance.OnR;
-            @R.canceled += instance.OnR;
-            @J.started += instance.OnJ;
-            @J.performed += instance.OnJ;
-            @J.canceled += instance.OnJ;
-            @E.started += instance.OnE;
-            @E.performed += instance.OnE;
-            @E.canceled += instance.OnE;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
+            @MouseScrollY.started += instance.OnMouseScrollY;
+            @MouseScrollY.performed += instance.OnMouseScrollY;
+            @MouseScrollY.canceled += instance.OnMouseScrollY;
+            @LeftClick.started += instance.OnLeftClick;
+            @LeftClick.performed += instance.OnLeftClick;
+            @LeftClick.canceled += instance.OnLeftClick;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -563,36 +536,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Right.started -= instance.OnRight;
             @Right.performed -= instance.OnRight;
             @Right.canceled -= instance.OnRight;
-            @View.started -= instance.OnView;
-            @View.performed -= instance.OnView;
-            @View.canceled -= instance.OnView;
-            @RightClick.started -= instance.OnRightClick;
-            @RightClick.performed -= instance.OnRightClick;
-            @RightClick.canceled -= instance.OnRightClick;
-            @LeftClick.started -= instance.OnLeftClick;
-            @LeftClick.performed -= instance.OnLeftClick;
-            @LeftClick.canceled -= instance.OnLeftClick;
-            @MiddleClick.started -= instance.OnMiddleClick;
-            @MiddleClick.performed -= instance.OnMiddleClick;
-            @MiddleClick.canceled -= instance.OnMiddleClick;
-            @MouseScrollY.started -= instance.OnMouseScrollY;
-            @MouseScrollY.performed -= instance.OnMouseScrollY;
-            @MouseScrollY.canceled -= instance.OnMouseScrollY;
             @Shift.started -= instance.OnShift;
             @Shift.performed -= instance.OnShift;
             @Shift.canceled -= instance.OnShift;
             @Space.started -= instance.OnSpace;
             @Space.performed -= instance.OnSpace;
             @Space.canceled -= instance.OnSpace;
-            @R.started -= instance.OnR;
-            @R.performed -= instance.OnR;
-            @R.canceled -= instance.OnR;
-            @J.started -= instance.OnJ;
-            @J.performed -= instance.OnJ;
-            @J.canceled -= instance.OnJ;
-            @E.started -= instance.OnE;
-            @E.performed -= instance.OnE;
-            @E.canceled -= instance.OnE;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
+            @MouseScrollY.started -= instance.OnMouseScrollY;
+            @MouseScrollY.performed -= instance.OnMouseScrollY;
+            @MouseScrollY.canceled -= instance.OnMouseScrollY;
+            @LeftClick.started -= instance.OnLeftClick;
+            @LeftClick.performed -= instance.OnLeftClick;
+            @LeftClick.canceled -= instance.OnLeftClick;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -617,15 +578,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnDown(InputAction.CallbackContext context);
         void OnLeft(InputAction.CallbackContext context);
         void OnRight(InputAction.CallbackContext context);
-        void OnView(InputAction.CallbackContext context);
-        void OnRightClick(InputAction.CallbackContext context);
-        void OnLeftClick(InputAction.CallbackContext context);
-        void OnMiddleClick(InputAction.CallbackContext context);
-        void OnMouseScrollY(InputAction.CallbackContext context);
         void OnShift(InputAction.CallbackContext context);
         void OnSpace(InputAction.CallbackContext context);
-        void OnR(InputAction.CallbackContext context);
-        void OnJ(InputAction.CallbackContext context);
-        void OnE(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
+        void OnMouseScrollY(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
     }
 }
