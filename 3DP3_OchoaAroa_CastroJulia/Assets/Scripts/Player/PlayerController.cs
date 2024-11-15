@@ -131,9 +131,6 @@ public class PlayerController : MonoBehaviour, IStartGameElement
             m_VerticalSpeed = 0f;
         else if ((l_CollisionFlags & CollisionFlags.Above) != 0 && m_VerticalSpeed > 0f)
             m_VerticalSpeed = 0f;
-        
-        if (InputManager.Instance.J.Tap)
-            m_LockAngle = !m_LockAngle;
     }
 
     private void OnEnable()
