@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class OldCameraController : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     [Header("Camera Settings")]
     [SerializeField] private float m_MinCameraDist = 5.0f;
@@ -33,8 +33,8 @@ public class OldCameraController : MonoBehaviour
     
     private void LateUpdate()
     {
-        float l_horizontalAxis = InputManager.Instance.MouseX;
-        float l_verticalAxis = InputManager.Instance.MouseY;
+        float l_horizontalAxis = InputManager.Instance.Look.x;
+        float l_verticalAxis = InputManager.Instance.Look.y;
         
         Vector3 l_lookDirection = m_FollowObject.position - transform.position;
         float l_distToPlayer = l_lookDirection.magnitude;
@@ -62,9 +62,17 @@ public class OldCameraController : MonoBehaviour
         
         Ray l_ray = new Ray(m_FollowObject.position, -l_cameraForward);
         
-        if(Physics.Raycast(l_ray, out RaycastHit l_hit, l_distToPlayer, m_LayerMask.value))
+        if (Physics.Raycast(l_ray, out RaycastHit l_hit, m_MaxCameraDist, m_LayerMask.value))
         {
-            l_desiredPos = l_hit.point + l_cameraForward * m_OffsetHit;
+            // Calculate the new distance based on the hit point, but move the camera away
+            // Increase the distance from the object (camera goes over the obstacle)
+            float l_adjustedDist = Mathf.Max(l_hit.distance + m_OffsetHit, m_MinCameraDist);  // Ensure the camera doesn't get closer than the minimum distance
+            l_desiredPos = m_FollowObject.position - l_cameraForward * l_adjustedDist;
+        }
+        else
+        {
+            // Default position when no collision occurs
+            l_desiredPos = m_FollowObject.position - l_cameraForward * l_distToPlayer;
         }
         
         transform.position = l_desiredPos;

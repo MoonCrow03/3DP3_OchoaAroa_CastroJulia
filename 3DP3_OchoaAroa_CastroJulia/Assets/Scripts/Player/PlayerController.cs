@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	
 	private Vector3 m_InitialPosition;
 	private Quaternion m_InitialRotation;
+	
+	public Vector3 GetMovementVelocity() => m_CharacterController.velocity;
 
     private void Awake()
     {
