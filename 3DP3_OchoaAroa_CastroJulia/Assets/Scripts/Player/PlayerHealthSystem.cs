@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerHealthSystem : MonoBehaviour, IStartGameElement
+public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
 {
     [Header("Health Settings")]
     [SerializeField] private int m_DefaultLives = 4;

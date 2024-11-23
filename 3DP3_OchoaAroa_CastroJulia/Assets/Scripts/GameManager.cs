@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     private static GameManager m_Instance;
     
     private PlayerController m_Player;
-    private List<IStartGameElement> m_RestartGameElements;
+    private List<IRestartGameElement> m_RestartGameElements;
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        m_RestartGameElements = new List<IStartGameElement>();
+        m_RestartGameElements = new List<IRestartGameElement>();
     }
 
     public static GameManager GetInstance()
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         m_Player = p_Player;
     }
 
-    public void RegisterGameElement(IStartGameElement p_Element)
+    public void RegisterGameElement(IRestartGameElement p_Element)
     {
         m_RestartGameElements.Add(p_Element);
     }
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGameElements()
     {
-        foreach (IStartGameElement l_element in m_RestartGameElements)
+        foreach (IRestartGameElement l_element in m_RestartGameElements)
         {
             l_element.RestartGame();
         }

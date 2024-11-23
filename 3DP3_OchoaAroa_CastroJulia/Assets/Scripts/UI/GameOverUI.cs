@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOverUI : MonoBehaviour, IStartGameElement
+public class GameOverUI : MonoBehaviour, IRestartGameElement
 {
     [SerializeField] private float m_FadeDuration = 1.5f;
     [SerializeField] private float m_WaitTimeAfterFade = 3.0f;
