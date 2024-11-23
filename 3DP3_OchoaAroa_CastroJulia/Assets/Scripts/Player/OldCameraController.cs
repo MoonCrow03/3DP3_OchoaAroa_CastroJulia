@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class CameraController : MonoBehaviour
+public class OldCameraController : MonoBehaviour
 {
     [Header("Camera Settings")]
     [SerializeField] private float m_MinCameraDist = 5.0f;
@@ -33,8 +33,8 @@ public class CameraController : MonoBehaviour
     
     private void LateUpdate()
     {
-        float l_horizontalAxis = InputManager.Instance.MouseDelta.x;
-        float l_verticalAxis = InputManager.Instance.MouseDelta.y;
+        float l_horizontalAxis = InputManager.Instance.MouseX;
+        float l_verticalAxis = InputManager.Instance.MouseY;
         
         Vector3 l_lookDirection = m_FollowObject.position - transform.position;
         float l_distToPlayer = l_lookDirection.magnitude;

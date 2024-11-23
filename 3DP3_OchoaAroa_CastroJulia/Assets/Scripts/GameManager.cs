@@ -34,9 +34,9 @@ public class GameManager : MonoBehaviour
         return m_Player;
     }
 
-    public void SetPlayer(PlayerController p_Player)
+    public void SetPlayer(PlayerController pPlayer)
     {
-        m_Player = p_Player;
+        m_Player = pPlayer;
     }
 
     public void RegisterGameElement(IRestartGameElement p_Element)

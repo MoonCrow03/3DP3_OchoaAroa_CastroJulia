@@ -91,7 +91,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MouseDelta"",
+                    ""name"": ""Look"",
                     ""type"": ""PassThrough"",
                     ""id"": ""744fad18-cbce-4c35-bc38-90a0340f48f4"",
                     ""expectedControlType"": ""Vector2"",
@@ -116,6 +116,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseX"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""8b3eac63-0324-428d-bc39-2f9de41d2992"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseY"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""21e20243-027a-4ed3-9c1b-5c8d72614139"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""LeftClick"",
@@ -382,11 +400,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e8ec9de5-1d06-47ef-ae69-00e93e768342"",
-                    ""path"": ""<Mouse>/delta"",
+                    ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseDelta"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -397,7 +415,29 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseDelta"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d25807de-aa6c-4346-9333-c8c402faf6b9"",
+                    ""path"": ""<Mouse>/delta/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d51b77a-cdaa-48db-9b20-7b67bca5f911"",
+                    ""path"": ""<Mouse>/delta/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseY"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -415,9 +455,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Main_Right = m_Main.FindAction("Right", throwIfNotFound: true);
         m_Main_Shift = m_Main.FindAction("Shift", throwIfNotFound: true);
         m_Main_Space = m_Main.FindAction("Space", throwIfNotFound: true);
-        m_Main_MouseDelta = m_Main.FindAction("MouseDelta", throwIfNotFound: true);
+        m_Main_Look = m_Main.FindAction("Look", throwIfNotFound: true);
         m_Main_MousePosition = m_Main.FindAction("MousePosition", throwIfNotFound: true);
         m_Main_MouseScrollY = m_Main.FindAction("MouseScrollY", throwIfNotFound: true);
+        m_Main_MouseX = m_Main.FindAction("MouseX", throwIfNotFound: true);
+        m_Main_MouseY = m_Main.FindAction("MouseY", throwIfNotFound: true);
         m_Main_LeftClick = m_Main.FindAction("LeftClick", throwIfNotFound: true);
         m_Main_RightClick = m_Main.FindAction("RightClick", throwIfNotFound: true);
     }
@@ -488,9 +530,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Right;
     private readonly InputAction m_Main_Shift;
     private readonly InputAction m_Main_Space;
-    private readonly InputAction m_Main_MouseDelta;
+    private readonly InputAction m_Main_Look;
     private readonly InputAction m_Main_MousePosition;
     private readonly InputAction m_Main_MouseScrollY;
+    private readonly InputAction m_Main_MouseX;
+    private readonly InputAction m_Main_MouseY;
     private readonly InputAction m_Main_LeftClick;
     private readonly InputAction m_Main_RightClick;
     public struct MainActions
@@ -504,9 +548,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Right => m_Wrapper.m_Main_Right;
         public InputAction @Shift => m_Wrapper.m_Main_Shift;
         public InputAction @Space => m_Wrapper.m_Main_Space;
-        public InputAction @MouseDelta => m_Wrapper.m_Main_MouseDelta;
+        public InputAction @Look => m_Wrapper.m_Main_Look;
         public InputAction @MousePosition => m_Wrapper.m_Main_MousePosition;
         public InputAction @MouseScrollY => m_Wrapper.m_Main_MouseScrollY;
+        public InputAction @MouseX => m_Wrapper.m_Main_MouseX;
+        public InputAction @MouseY => m_Wrapper.m_Main_MouseY;
         public InputAction @LeftClick => m_Wrapper.m_Main_LeftClick;
         public InputAction @RightClick => m_Wrapper.m_Main_RightClick;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
@@ -539,15 +585,21 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Space.started += instance.OnSpace;
             @Space.performed += instance.OnSpace;
             @Space.canceled += instance.OnSpace;
-            @MouseDelta.started += instance.OnMouseDelta;
-            @MouseDelta.performed += instance.OnMouseDelta;
-            @MouseDelta.canceled += instance.OnMouseDelta;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
             @MouseScrollY.started += instance.OnMouseScrollY;
             @MouseScrollY.performed += instance.OnMouseScrollY;
             @MouseScrollY.canceled += instance.OnMouseScrollY;
+            @MouseX.started += instance.OnMouseX;
+            @MouseX.performed += instance.OnMouseX;
+            @MouseX.canceled += instance.OnMouseX;
+            @MouseY.started += instance.OnMouseY;
+            @MouseY.performed += instance.OnMouseY;
+            @MouseY.canceled += instance.OnMouseY;
             @LeftClick.started += instance.OnLeftClick;
             @LeftClick.performed += instance.OnLeftClick;
             @LeftClick.canceled += instance.OnLeftClick;
@@ -579,15 +631,21 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Space.started -= instance.OnSpace;
             @Space.performed -= instance.OnSpace;
             @Space.canceled -= instance.OnSpace;
-            @MouseDelta.started -= instance.OnMouseDelta;
-            @MouseDelta.performed -= instance.OnMouseDelta;
-            @MouseDelta.canceled -= instance.OnMouseDelta;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
             @MouseScrollY.started -= instance.OnMouseScrollY;
             @MouseScrollY.performed -= instance.OnMouseScrollY;
             @MouseScrollY.canceled -= instance.OnMouseScrollY;
+            @MouseX.started -= instance.OnMouseX;
+            @MouseX.performed -= instance.OnMouseX;
+            @MouseX.canceled -= instance.OnMouseX;
+            @MouseY.started -= instance.OnMouseY;
+            @MouseY.performed -= instance.OnMouseY;
+            @MouseY.canceled -= instance.OnMouseY;
             @LeftClick.started -= instance.OnLeftClick;
             @LeftClick.performed -= instance.OnLeftClick;
             @LeftClick.canceled -= instance.OnLeftClick;
@@ -620,9 +678,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnRight(InputAction.CallbackContext context);
         void OnShift(InputAction.CallbackContext context);
         void OnSpace(InputAction.CallbackContext context);
-        void OnMouseDelta(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnMouseScrollY(InputAction.CallbackContext context);
+        void OnMouseX(InputAction.CallbackContext context);
+        void OnMouseY(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
     }

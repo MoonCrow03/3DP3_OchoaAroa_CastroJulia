@@ -47,8 +47,8 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 
     private void Awake()
     {
-	    m_CharacterController = GetComponent<CharacterController>();
 	    m_PlayerHealthSystem = GetComponent<PlayerHealthSystem>();
+	    m_CharacterController = GetComponentInChildren<CharacterController>();
 	    m_Animator = GetComponentInChildren<Animator>();
     }
 
@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    m_LeftHandPunchHitCollider.SetActive(false);
 	    m_RightHandPunchCollider.SetActive(false);
 	    m_RightFootKickCollider.SetActive(false);
+	    
+	    m_Animator.applyRootMotion = false;
     }
 
     private void Update()
@@ -91,30 +93,29 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 
 		if (InputManager.Instance.Up.Hold)
 		{
-			l_movement = l_forward;
+			l_movement += l_forward;
 			l_hasMovement = true;
 		}
 
 		if (InputManager.Instance.Down.Hold)
 		{
-			l_movement = -l_forward;
+			l_movement -= l_forward;
 			l_hasMovement = true;
 		}
 		
 		l_movement.Normalize();
 
-		float l_speed = 0.0f;
 		if (l_hasMovement)
 		{
 			if (InputManager.Instance.Shift.Hold)
 			{
-				l_speed = m_RunSpeed;
+				l_movement *= m_RunSpeed;
 				m_Animator.SetFloat(Speed, 1.0f);
 			}
 			else
 			{
-				l_speed = m_WalkSpeed;
-				m_Animator.SetFloat(Speed, 0.2f);
+				l_movement *= m_WalkSpeed;
+				m_Animator.SetFloat(Speed, 0.5f);
 			}
 			
 			Quaternion l_targetRotation = Quaternion.LookRotation(l_movement);
@@ -129,7 +130,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 			JumpMethod();
 		}
 		
-		l_movement *= l_speed * Time.deltaTime;
+		l_movement *= m_WalkSpeed * Time.deltaTime;
 		
 		m_VerticalSpeed += Physics.gravity.y * Time.deltaTime;
 		
@@ -137,14 +138,13 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 		
 		CollisionFlags l_collisionFlags = m_CharacterController.Move(l_movement);
 		
-		if ((l_collisionFlags & CollisionFlags.Below) != 0 && m_VerticalSpeed <0.0f)
-			m_Animator.SetBool(Falling, false);
-		else 
-			m_Animator.SetBool(Falling, true);
+		bool l_isGrounded = (l_collisionFlags & CollisionFlags.Below) != 0;
+		bool l_isRoof = (l_collisionFlags & CollisionFlags.Above) != 0;
 
-		if ((l_collisionFlags & CollisionFlags.Below) != 0 ||
-		    (l_collisionFlags & CollisionFlags.Above) != 0 && m_VerticalSpeed > 0.0f)
+		if ((l_isGrounded && m_VerticalSpeed < 0.0f) || (l_isRoof && m_VerticalSpeed > 0.0f))
 			m_VerticalSpeed = 0.0f;
+		
+		m_Animator.SetBool(Falling, !l_isGrounded);
 		
 		UpdateHit();
     }
@@ -177,6 +177,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
     {
 	    if (InputManager.Instance.LeftClick.Tap && CanPunch())
 	    {
+		    Debug.Log("Punch");
 		    ExecutePunchCombo();
 	    }
     }
