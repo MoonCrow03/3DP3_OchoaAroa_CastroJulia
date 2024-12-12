@@ -8,8 +8,6 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	private static readonly int _speed = Animator.StringToHash("Speed");
 	private static readonly int _jump = Animator.StringToHash("Jump");
 	private static readonly int _longJump = Animator.StringToHash("LongJump");
-	private static readonly int _punch = Animator.StringToHash("Punch");
-	private static readonly int _punchCombo = Animator.StringToHash("PunchCombo");
 	private static readonly int _falling = Animator.StringToHash("Falling");
 	private static readonly int _jumpCombo = Animator.StringToHash("JumpCombo");
 	
@@ -19,9 +17,6 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	[SerializeField] private float m_WalkSpeed = 5f;
 	[SerializeField] private float m_RunSpeed = 10f;
 	[SerializeField] private float m_LerpRotation = 16.0f;
-	
-	[Header("Punch Settings")]
-	[SerializeField] private float m_PunchComboAvailableTime = 1.3f;
 	
 	[Header("Components")]
 	[SerializeField] private Camera m_Camera;
@@ -33,6 +28,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	
 	[Header("Jump Parameters")]
 	[SerializeField] private float m_JumpVerticalSpeed = 5.0f;
+	[SerializeField] private float m_LongJumpVerticalSpeed = 7.0f;
 	[SerializeField] private float m_KillJumpVerticalSpeed = 8.0f;
 	[SerializeField] private float m_MaxAngleToKillGoomba = 15.0f;
 	[SerializeField] private float m_MinVerticalSpeedToKillGoomba = -1.0f;
@@ -43,9 +39,6 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	private float m_VerticalSpeed;
 	private int m_CurrentJumpId;
 	
-	private float m_LastPunchTime;
-	private int m_CurrentPunchId;
-	
 	private PlayerHealthSystem m_PlayerHealthSystem;
 	private CharacterController m_CharacterController;
 	private Animator m_Animator;
@@ -54,6 +47,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	private Quaternion m_InitialRotation;
 	
 	public Vector3 GetMovementVelocity() => m_CharacterController.velocity;
+	public bool IsGrounded() => m_CharacterController.isGrounded;
 
     private void Awake()
     {
@@ -161,42 +155,23 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 			m_CurrentJumpId = 0;
 		
 		m_Animator.SetBool(_falling, !l_isGrounded);
-		
-		UpdateHit();
     }
     
     private bool CanJump()
     {
 	    return m_CurrentJumpId < MAX_JUMPS;
     }
-
-    public void TakeLive()
-    {
-	    m_PlayerHealthSystem.TakeLive();
-    }
-    
-    private void UpdateHit()
-    {
-	    if (InputManager.Instance.LeftClick.Tap && CanPunch())
-	    {
-		    ExecutePunchCombo();
-	    }
-    }
-    
-    private bool CanPunch()
-    {
-	    return true;
-    }
     
     private void ExecuteJump()
     {
-	    m_VerticalSpeed = m_JumpVerticalSpeed;
 	    if (InputManager.Instance.Shift.Hold && m_CurrentJumpId == 0)
 	    {
+		    m_VerticalSpeed = m_LongJumpVerticalSpeed;
 		    m_Animator.SetTrigger(_longJump);
 	    }
 	    else
 	    {
+		    m_VerticalSpeed = m_JumpVerticalSpeed;
 		    m_Animator.SetTrigger(_jump);
 	    }
 	    
@@ -204,22 +179,6 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    Debug.Log("Jump id: " + m_CurrentJumpId);
 	    
 	    m_Animator.SetInteger(_jumpCombo, m_CurrentJumpId);
-    }
-
-    private void ExecutePunchCombo()
-    {
-	    m_Animator.SetTrigger(_punch);
-	    float diffTime = Time.time - m_LastPunchTime;
-	    if (diffTime <= m_PunchComboAvailableTime)
-	    {
-		    m_CurrentPunchId = (m_CurrentPunchId + 1) % 3;
-	    }
-	    else
-	    {
-		    m_CurrentPunchId = 0;
-	    }
-	    m_LastPunchTime = Time.time;
-	    m_Animator.SetInteger(_punchCombo, m_CurrentPunchId);
     }
     
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -266,6 +225,11 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    }
     }
 
+    public void TakeLive()
+    {
+	    m_PlayerHealthSystem.TakeLive();
+    }
+    
     public void Heal()
     {
 	    m_PlayerHealthSystem.GiveLive();

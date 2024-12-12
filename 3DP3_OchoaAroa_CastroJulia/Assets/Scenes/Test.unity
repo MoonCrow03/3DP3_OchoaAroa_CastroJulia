@@ -122,6 +122,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &50158566 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4721147370049058070, guid: 5f1680036b3c19f45a5b793ce0a842b3, type: 3}
+  m_PrefabInstance: {fileID: 503600586575631934}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &50158571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50158566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c048956ad58f3194394236a200ddda1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PunchComboAvailableTime: 1.3
 --- !u!1 &64909062 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: b81f36fec05c16e46ac9bd882d4ab594, type: 3}
@@ -947,7 +965,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4721147370049058070, guid: 5f1680036b3c19f45a5b793ce0a842b3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 50158571}
   m_SourcePrefab: {fileID: 100100000, guid: 5f1680036b3c19f45a5b793ce0a842b3, type: 3}
 --- !u!1001 &972343018373849448
 PrefabInstance:
