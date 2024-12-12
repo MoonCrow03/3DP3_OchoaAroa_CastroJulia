@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	private static readonly int Punch = Animator.StringToHash("Punch");
 	private static readonly int PunchCombo = Animator.StringToHash("PunchCombo");
 	private static readonly int Falling = Animator.StringToHash("Falling");
+	
+	private static int MAX_JUMPS = 3;
 
 	[Header("Movement Settings")]
 	[SerializeField] private float m_WalkSpeed = 5f;
@@ -37,11 +39,10 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	[Header("Bridge Parameters")]
 	[SerializeField] private float m_BridgeForce = 100.0f;
 	
-	[Header("Elevator Parameters")]
-	[SerializeField] private float m_ElevatorDotAngle = 0.9f;
-	private Collider m_CurrentElevator;
-	
 	private float m_VerticalSpeed;
+	private int m_JumpCount;
+	private bool m_IsWallJumping;
+	
 	private float m_LastPunchTime;
 	private int m_CurrentPunchId;
 	
@@ -58,7 +59,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
     {
 	    m_PlayerHealthSystem = GetComponent<PlayerHealthSystem>();
 	    m_CharacterController = GetComponent<CharacterController>();
-	    m_Animator = GetComponent<Animator>();
+	    m_Animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -185,7 +186,6 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
     {
 	    if (InputManager.Instance.LeftClick.Tap && CanPunch())
 	    {
-		    Debug.Log("Punch");
 		    ExecutePunchCombo();
 	    }
     }
@@ -238,52 +238,6 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    float l_DotAngle = Vector3.Dot(l_GoombaDirection, Vector3.up);
 	    return l_DotAngle >= Mathf.Cos(m_MaxAngleToKillGoomba * Mathf.Deg2Rad) && m_VerticalSpeed <= m_MinVerticalSpeedToKillGoomba;
     }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-	    if (other.CompareTag("Elevator"))
-	    {
-		    Debug.Log("Enter elevator");
-		    if(CanAttachElevator(other))
-			    AttachElevator(other);
-	    }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-	    if(other.CompareTag("Elevator") && CanAttachElevator(other) && Vector3.Dot(other.transform.up, transform.up) < m_ElevatorDotAngle)
-		    AttachElevator(other);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-	    if (other.CompareTag("Elevator"))
-	    {
-		    if (other == m_CurrentElevator)
-		    {
-			    Debug.Log("Deattach elevator");
-			    DeattachElevator();
-		    }
-	    }
-    }
-
-    private void AttachElevator(Collider elevator)
-	{
-	    transform.SetParent(elevator.transform);
-	    m_CurrentElevator = elevator;
-	}
-    
-	private bool CanAttachElevator(Collider other)
-	{
-		Debug.Log("Dot: " + Vector3.Dot(other.transform.up, transform.up));
-		return m_CurrentElevator == null && Vector3.Dot(other.transform.up, transform.up) >= m_ElevatorDotAngle;
-	}
-
-	private void DeattachElevator()
-	{
-		m_CurrentElevator = null;
-		transform.SetParent(null);
-	}
     
     public void EnableHitCollider(EPunchType punchType, bool active)
     {
