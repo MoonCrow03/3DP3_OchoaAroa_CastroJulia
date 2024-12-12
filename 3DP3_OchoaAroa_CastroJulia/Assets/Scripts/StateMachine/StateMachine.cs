@@ -12,7 +12,7 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
     
     protected abstract BState<EState> CreateInitialState();
 
-    void Start()
+    protected virtual void Start()
     {
         m_CurrentState = CreateInitialState();
         if (m_CurrentState == null)
@@ -23,7 +23,7 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
         m_CurrentState.OnEnter();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (m_CurrentState == null) return;
 
@@ -34,6 +34,7 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
         }
         else
         {
+            Debug.Log("Current state: " + m_CurrentState.m_StateKey);
             m_CurrentState.OnUpdate();
         }
     }

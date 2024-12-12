@@ -7,13 +7,13 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 {
 	private static readonly int _speed = Animator.StringToHash("Speed");
 	private static readonly int _jump = Animator.StringToHash("Jump");
+	private static readonly int _longJump = Animator.StringToHash("LongJump");
 	private static readonly int _punch = Animator.StringToHash("Punch");
 	private static readonly int _punchCombo = Animator.StringToHash("PunchCombo");
 	private static readonly int _falling = Animator.StringToHash("Falling");
 	private static readonly int _jumpCombo = Animator.StringToHash("JumpCombo");
 	
 	private static int MAX_JUMPS = 3;
-	
 
 	[Header("Movement Settings")]
 	[SerializeField] private float m_WalkSpeed = 5f;
@@ -155,8 +155,10 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 		if ((l_isGrounded && m_VerticalSpeed < 0.0f) || (l_isRoof && m_VerticalSpeed > 0.0f))
 		{
 			m_VerticalSpeed = 0.0f;
-			m_CurrentJumpId = 0;
 		}
+		
+		if(l_isGrounded && m_CurrentJumpId != 0)
+			m_CurrentJumpId = 0;
 		
 		m_Animator.SetBool(_falling, !l_isGrounded);
 		
@@ -189,9 +191,16 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
     private void ExecuteJump()
     {
 	    m_VerticalSpeed = m_JumpVerticalSpeed;
-	    m_Animator.SetTrigger(_jump);
+	    if (InputManager.Instance.Shift.Hold && m_CurrentJumpId == 0)
+	    {
+		    m_Animator.SetTrigger(_longJump);
+	    }
+	    else
+	    {
+		    m_Animator.SetTrigger(_jump);
+	    }
 	    
-	    m_CurrentJumpId = (m_CurrentJumpId + 1) % MAX_JUMPS;
+	    m_CurrentJumpId++;
 	    Debug.Log("Jump id: " + m_CurrentJumpId);
 	    
 	    m_Animator.SetInteger(_jumpCombo, m_CurrentJumpId);

@@ -16,7 +16,7 @@ public abstract class BState<EState> where EState : Enum
     public abstract void OnExit();
     public abstract void OnUpdate();
     public abstract EState OnNextState();
-    public abstract void OnTriggerEnter(Collider other);
-    public abstract void OnTriggerStay(Collider other);
-    public abstract void OnTriggerExit(Collider other);
+    public virtual void OnTriggerEnter(Collider other) {}
+    public virtual void OnTriggerStay(Collider other) {}
+    public virtual void OnTriggerExit(Collider other) {}
 }
