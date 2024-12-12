@@ -39,4 +39,22 @@ public class PlayerAnimationEvents : MonoBehaviour
         AudioClip l_AudioClip = (AudioClip) animationEvent.objectReferenceParameter;
         AudioSource.PlayClipAtPoint(l_AudioClip, transform.position);
     }
+    
+    public void Jump2(AnimationEvent animationEvent)
+    {
+        AudioClip l_AudioClip = (AudioClip) animationEvent.objectReferenceParameter;
+        AudioSource.PlayClipAtPoint(l_AudioClip, transform.position);
+    }
+    
+    public void Jump3(AnimationEvent animationEvent)
+    {
+        AudioClip l_AudioClip = (AudioClip) animationEvent.objectReferenceParameter;
+        AudioSource.PlayClipAtPoint(l_AudioClip, transform.position);
+    }
+    
+    public void LongJumpSound(AnimationEvent animationEvent)
+    {
+        AudioClip l_AudioClip = (AudioClip) animationEvent.objectReferenceParameter;
+        AudioSource.PlayClipAtPoint(l_AudioClip, transform.position);
+    }
 }

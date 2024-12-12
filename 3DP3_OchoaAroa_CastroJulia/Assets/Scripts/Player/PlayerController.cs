@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IRestartGameElement
 {
-	private static readonly int Speed = Animator.StringToHash("Speed");
-	private static readonly int Jump = Animator.StringToHash("Jump");
-	private static readonly int Punch = Animator.StringToHash("Punch");
-	private static readonly int PunchCombo = Animator.StringToHash("PunchCombo");
-	private static readonly int Falling = Animator.StringToHash("Falling");
+	private static readonly int _speed = Animator.StringToHash("Speed");
+	private static readonly int _jump = Animator.StringToHash("Jump");
+	private static readonly int _punch = Animator.StringToHash("Punch");
+	private static readonly int _punchCombo = Animator.StringToHash("PunchCombo");
+	private static readonly int _falling = Animator.StringToHash("Falling");
+	private static readonly int _jumpCombo = Animator.StringToHash("JumpCombo");
 	
 	private static int MAX_JUMPS = 3;
+	
 
 	[Header("Movement Settings")]
 	[SerializeField] private float m_WalkSpeed = 5f;
@@ -30,7 +32,6 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	[SerializeField] private GameObject m_RightFootKickCollider;
 	
 	[Header("Jump Parameters")]
-	[SerializeField] private float m_WaitStartJumpTime = 0.12f;
 	[SerializeField] private float m_JumpVerticalSpeed = 5.0f;
 	[SerializeField] private float m_KillJumpVerticalSpeed = 8.0f;
 	[SerializeField] private float m_MaxAngleToKillGoomba = 15.0f;
@@ -40,8 +41,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	[SerializeField] private float m_BridgeForce = 100.0f;
 	
 	private float m_VerticalSpeed;
-	private int m_JumpCount;
-	private bool m_IsWallJumping;
+	private int m_CurrentJumpId;
 	
 	private float m_LastPunchTime;
 	private int m_CurrentPunchId;
@@ -120,12 +120,12 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 			if (InputManager.Instance.Shift.Hold)
 			{
 				l_movement *= m_RunSpeed;
-				m_Animator.SetFloat(Speed, 1.0f);
+				m_Animator.SetFloat(_speed, 1.0f);
 			}
 			else
 			{
 				l_movement *= m_WalkSpeed;
-				m_Animator.SetFloat(Speed, 0.5f);
+				m_Animator.SetFloat(_speed, 0.5f);
 			}
 			
 			Quaternion l_targetRotation = Quaternion.LookRotation(l_movement);
@@ -133,11 +133,12 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 				m_LerpRotation * Time.deltaTime);
 		}
 		else
-			m_Animator.SetFloat(Speed, 0.0f);
+			m_Animator.SetFloat(_speed, 0.0f);
 
-		if (CanJump() && InputManager.Instance.Space.Tap)
+		if (InputManager.Instance.Space.Tap)
 		{
-			JumpMethod();
+			if(CanJump())
+				ExecuteJump();
 		}
 		
 		l_movement *= m_WalkSpeed * Time.deltaTime;
@@ -152,29 +153,19 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 		bool l_isRoof = (l_collisionFlags & CollisionFlags.Above) != 0;
 
 		if ((l_isGrounded && m_VerticalSpeed < 0.0f) || (l_isRoof && m_VerticalSpeed > 0.0f))
+		{
 			m_VerticalSpeed = 0.0f;
+			m_CurrentJumpId = 0;
+		}
 		
-		m_Animator.SetBool(Falling, !l_isGrounded);
+		m_Animator.SetBool(_falling, !l_isGrounded);
 		
 		UpdateHit();
     }
     
-    // TODO: Implement CanJump method
     private bool CanJump()
     {
-	    return true;
-    }
-
-    private void JumpMethod()
-    {
-	    StartCoroutine(ExecuteJump());
-    }
-    
-    IEnumerator ExecuteJump()
-    {
-	    yield return new WaitForSeconds(m_WaitStartJumpTime);
-	    m_VerticalSpeed = m_JumpVerticalSpeed;
-	    m_Animator.SetTrigger(Jump);
+	    return m_CurrentJumpId < MAX_JUMPS;
     }
 
     public void TakeLive()
@@ -194,12 +185,23 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
     {
 	    return true;
     }
+    
+    private void ExecuteJump()
+    {
+	    m_VerticalSpeed = m_JumpVerticalSpeed;
+	    m_Animator.SetTrigger(_jump);
+	    
+	    m_CurrentJumpId = (m_CurrentJumpId + 1) % MAX_JUMPS;
+	    Debug.Log("Jump id: " + m_CurrentJumpId);
+	    
+	    m_Animator.SetInteger(_jumpCombo, m_CurrentJumpId);
+    }
 
     private void ExecutePunchCombo()
     {
-	    m_Animator.SetTrigger(Punch);
-	    float l_DiffTime = Time.time - m_LastPunchTime;
-	    if (l_DiffTime <= m_PunchComboAvailableTime)
+	    m_Animator.SetTrigger(_punch);
+	    float diffTime = Time.time - m_LastPunchTime;
+	    if (diffTime <= m_PunchComboAvailableTime)
 	    {
 		    m_CurrentPunchId = (m_CurrentPunchId + 1) % 3;
 	    }
@@ -208,7 +210,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 		    m_CurrentPunchId = 0;
 	    }
 	    m_LastPunchTime = Time.time;
-	    m_Animator.SetInteger(PunchCombo, m_CurrentPunchId);
+	    m_Animator.SetInteger(_punchCombo, m_CurrentPunchId);
     }
     
     private void OnControllerColliderHit(ControllerColliderHit hit)

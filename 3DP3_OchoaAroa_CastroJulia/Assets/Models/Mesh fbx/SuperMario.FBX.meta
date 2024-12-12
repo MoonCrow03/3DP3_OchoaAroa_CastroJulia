@@ -1226,7 +1226,7 @@ ModelImporter:
       - time: 0.17917252
         functionName: LongJumpSound
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: fa7ad1cdd24f13549aa20e4d285ba743, type: 3}
+        objectReferenceParameter: {fileID: 8300000, guid: dd312ecb1ec0f214fbacac5cf06c32f4, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -2007,7 +2007,7 @@ ModelImporter:
       - time: 0.19418187
         functionName: Jump2
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: fa7ad1cdd24f13549aa20e4d285ba743, type: 3}
+        objectReferenceParameter: {fileID: 8300000, guid: ecb4e80b01b89aa4f8459a0935f16341, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -3311,7 +3311,7 @@ ModelImporter:
       - time: 0.11496353
         functionName: Jump3
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: fa7ad1cdd24f13549aa20e4d285ba743, type: 3}
+        objectReferenceParameter: {fileID: 8300000, guid: 7ccbf0c43325cc645a395bdf4c26e41e, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

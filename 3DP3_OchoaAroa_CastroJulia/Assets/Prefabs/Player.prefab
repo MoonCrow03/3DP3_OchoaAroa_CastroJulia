@@ -220,7 +220,7 @@ MonoBehaviour:
   m_RightHandPunchCollider: {fileID: 6205892899268163844}
   m_RightFootKickCollider: {fileID: 6291509853380780902}
   m_WaitStartJumpTime: 0.12
-  m_JumpVerticalSpeed: 7
+  m_JumpVerticalSpeed: 5
   m_KillJumpVerticalSpeed: 8
   m_MaxAngleToKillGoomba: 15
   m_MinVerticalSpeedToKillGoomba: -1
