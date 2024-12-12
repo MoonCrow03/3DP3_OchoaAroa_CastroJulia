@@ -80,81 +80,97 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
         l_forward.Normalize();
         l_right.Normalize();
 
-        bool l_hasMovement = false;
         Vector3 l_movement = Vector3.zero;
-
-        if (InputManager.Instance.Right.Hold)
-        {
-			l_movement = l_right;
-			l_hasMovement = true;
-        }
+        bool l_hasMovement = GetMovementInput(ref l_movement, l_right, l_forward);
         
-        if (InputManager.Instance.Left.Hold)
-		{
-			l_movement = -l_right;
-			l_hasMovement = true;
-		}
+        l_movement.Normalize();
 
-		if (InputManager.Instance.Up.Hold)
-		{
-			l_movement += l_forward;
-			l_hasMovement = true;
-		}
+        if (l_hasMovement)
+	        HandleMovement(ref l_movement);
+        else
+	        m_Animator.SetFloat(_speed, 0.0f);
+        
+        HandleJump();
+		
+        ApplyMovement(ref l_movement);
+    }
+    
+    private bool GetMovementInput(ref Vector3 l_movement, Vector3 l_right, Vector3 l_forward)
+    {
+	    bool l_hasMovement = false;
 
-		if (InputManager.Instance.Down.Hold)
-		{
-			l_movement -= l_forward;
-			l_hasMovement = true;
-		}
-		
-		l_movement.Normalize();
+	    if (InputManager.Instance.Right.Hold)
+	    {
+		    l_movement = l_right;
+		    l_hasMovement = true;
+	    }
+	    else if (InputManager.Instance.Left.Hold)
+	    {
+		    l_movement = -l_right;
+		    l_hasMovement = true;
+	    }
 
-		if (l_hasMovement)
-		{
-			if (InputManager.Instance.Shift.Hold)
-			{
-				l_movement *= m_RunSpeed;
-				m_Animator.SetFloat(_speed, 1.0f);
-			}
-			else
-			{
-				l_movement *= m_WalkSpeed;
-				m_Animator.SetFloat(_speed, 0.5f);
-			}
-			
-			Quaternion l_targetRotation = Quaternion.LookRotation(l_movement);
-			transform.rotation = Quaternion.Lerp(transform.rotation, l_targetRotation, 
-				m_LerpRotation * Time.deltaTime);
-		}
-		else
-			m_Animator.SetFloat(_speed, 0.0f);
+	    if (InputManager.Instance.Up.Hold)
+	    {
+		    l_movement += l_forward;
+		    l_hasMovement = true;
+	    }
+	    else if (InputManager.Instance.Down.Hold)
+	    {
+		    l_movement -= l_forward;
+		    l_hasMovement = true;
+	    }
+	    
+	    return l_hasMovement;
+    }
+    
+    private void HandleMovement(ref Vector3 l_movement)
+    {
+	    if (InputManager.Instance.Shift.Hold)
+	    {
+		    l_movement *= m_RunSpeed;
+		    m_Animator.SetFloat(_speed, 1.0f);
+	    }
+	    else
+	    {
+		    l_movement *= m_WalkSpeed;
+		    m_Animator.SetFloat(_speed, 0.5f);
+	    }
 
-		if (InputManager.Instance.Space.Tap)
-		{
-			if(CanJump())
-				ExecuteJump();
-		}
-		
-		l_movement *= m_WalkSpeed * Time.deltaTime;
-		
-		m_VerticalSpeed += Physics.gravity.y * Time.deltaTime;
-		
-		l_movement.y = m_VerticalSpeed * Time.deltaTime;
-		
-		CollisionFlags l_collisionFlags = m_CharacterController.Move(l_movement);
-		
-		bool l_isGrounded = (l_collisionFlags & CollisionFlags.Below) != 0;
-		bool l_isRoof = (l_collisionFlags & CollisionFlags.Above) != 0;
+	    Quaternion l_targetRotation = Quaternion.LookRotation(l_movement);
+	    transform.rotation = Quaternion.Lerp(transform.rotation, l_targetRotation, m_LerpRotation * Time.deltaTime);
+    }
+    
+    private void HandleJump()
+    {
+	    if (InputManager.Instance.Space.Tap && CanJump())
+	    {
+		    ExecuteJump();
+	    }
+    }
+    
+    private void ApplyMovement(ref Vector3 l_movement)
+    {
+	    l_movement *= m_WalkSpeed * Time.deltaTime;
+	    m_VerticalSpeed += Physics.gravity.y * Time.deltaTime;
+	    l_movement.y = m_VerticalSpeed * Time.deltaTime;
 
-		if ((l_isGrounded && m_VerticalSpeed < 0.0f) || (l_isRoof && m_VerticalSpeed > 0.0f))
-		{
-			m_VerticalSpeed = 0.0f;
-		}
-		
-		if(l_isGrounded && m_CurrentJumpId != 0)
-			m_CurrentJumpId = 0;
-		
-		m_Animator.SetBool(_falling, !l_isGrounded);
+	    CollisionFlags l_collisionFlags = m_CharacterController.Move(l_movement);
+
+	    bool l_isGrounded = (l_collisionFlags & CollisionFlags.Below) != 0;
+	    bool l_isRoof = (l_collisionFlags & CollisionFlags.Above) != 0;
+
+	    if ((l_isGrounded && m_VerticalSpeed < 0.0f) || (l_isRoof && m_VerticalSpeed > 0.0f))
+	    {
+		    m_VerticalSpeed = 0.0f;
+	    }
+
+	    if (l_isGrounded && m_CurrentJumpId != 0)
+	    {
+		    m_CurrentJumpId = 0;
+	    }
+
+	    m_Animator.SetBool(_falling, !l_isGrounded);
     }
     
     private bool CanJump()
