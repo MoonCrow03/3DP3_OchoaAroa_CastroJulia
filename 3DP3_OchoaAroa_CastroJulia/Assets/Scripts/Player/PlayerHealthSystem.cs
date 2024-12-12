@@ -28,8 +28,8 @@ public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
             Die();
         }
     }
-    
-    private void GiveLive()
+
+    public void GiveLive()
     {
         m_CurrentLives += 1;
     }

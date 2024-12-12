@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	[SerializeField] private float m_MaxAngleToKillGoomba = 15.0f;
 	[SerializeField] private float m_MinVerticalSpeedToKillGoomba = -1.0f;
 	
+	[Header("Bridge Parameters")]
+	[SerializeField] private float m_BridgeForce = 100.0f;
+	
 	private float m_VerticalSpeed;
 	private float m_LastPunchTime;
 	private int m_CurrentPunchId;
@@ -50,8 +53,8 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
     private void Awake()
     {
 	    m_PlayerHealthSystem = GetComponent<PlayerHealthSystem>();
-	    m_CharacterController = GetComponentInChildren<CharacterController>();
-	    m_Animator = GetComponentInChildren<Animator>();
+	    m_CharacterController = GetComponent<CharacterController>();
+	    m_Animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -207,6 +210,10 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
     
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+	    if (hit.gameObject.CompareTag("Bridge"))
+	    {
+		    hit.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(-hit.normal * m_BridgeForce, hit.point);
+	    }
 	    if (hit.gameObject.CompareTag("Goomba"))
 	    {
 		    if (IsUpperHit(hit.transform))
@@ -243,6 +250,11 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 			    m_RightFootKickCollider.SetActive(active);
 			    break;
 	    }
+    }
+
+    public void Heal()
+    {
+	    m_PlayerHealthSystem.GiveLive();
     }
 
     public void SetCheckPoint(Vector3 position, Quaternion rotation)

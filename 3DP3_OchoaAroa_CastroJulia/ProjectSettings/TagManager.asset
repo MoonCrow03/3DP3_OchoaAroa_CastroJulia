@@ -7,6 +7,8 @@ TagManager:
   - DeadZone
   - Item
   - Goomba
+  - Elevator
+  - Bridge
   layers:
   - Default
   - TransparentFX

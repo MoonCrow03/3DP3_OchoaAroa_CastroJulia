@@ -324,11 +324,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2612471211933457286}
-  - component: {fileID: 5351341553177150105}
-  - component: {fileID: 1293176753417056459}
   m_Layer: 3
   m_Name: Mario
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -349,44 +347,6 @@ Transform:
   - {fileID: 1426813808547879397}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5351341553177150105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6184668120618904251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a542cdf37dbc60b45b11cf145e14f56c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_WalkSpeed: 2
-  m_RunSpeed: 8
-  m_LerpRotation: 16
-  m_PunchComboAvailableTime: 1.3
-  m_Camera: {fileID: 0}
-  m_LeftHandPunchHitCollider: {fileID: 3343854610296824668}
-  m_RightHandPunchCollider: {fileID: 2039827184488898383}
-  m_RightFootKickCollider: {fileID: 5607654139667388224}
-  m_WaitStartJumpTime: 0.12
-  m_JumpVerticalSpeed: 7
-  m_KillJumpVerticalSpeed: 8
-  m_MaxAngleToKillGoomba: 15
-  m_MinVerticalSpeedToKillGoomba: -1
---- !u!114 &1293176753417056459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6184668120618904251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bca2f492aa5412468d247c8346bea2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_DefaultLives: 4
 --- !u!1 &7606797350907253525
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,9 +494,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 100054, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100056, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_Layer
@@ -634,6 +602,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 100098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 400098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -700,6 +672,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5419452332018973648}
+    - targetCorrespondingSourceObject: {fileID: 100098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8708448437677392135}
+    - targetCorrespondingSourceObject: {fileID: 100098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2685882379582521569}
   m_SourcePrefab: {fileID: 100100000, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
 --- !u!1 &1426813808547578885 stripped
 GameObject:
@@ -744,6 +722,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42fb34a78d7fad4181d32b2c64b8a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8708448437677392135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426813808547578885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a542cdf37dbc60b45b11cf145e14f56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_WalkSpeed: 2
+  m_RunSpeed: 8
+  m_LerpRotation: 16
+  m_PunchComboAvailableTime: 1.3
+  m_Camera: {fileID: 0}
+  m_LeftHandPunchHitCollider: {fileID: 3343854610296824668}
+  m_RightHandPunchCollider: {fileID: 2039827184488898383}
+  m_RightFootKickCollider: {fileID: 5607654139667388224}
+  m_WaitStartJumpTime: 0.12
+  m_JumpVerticalSpeed: 7
+  m_KillJumpVerticalSpeed: 8
+  m_MaxAngleToKillGoomba: 15
+  m_MinVerticalSpeedToKillGoomba: -1
+  m_BridgeForce: 5
+--- !u!114 &2685882379582521569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426813808547578885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bca2f492aa5412468d247c8346bea2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DefaultLives: 4
 --- !u!4 &1426813808547879307 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400012, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
