@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager m_Instance;
+    private CoinManager m_CoinManager;
+    private StarManager m_StarManager;
     
     private PlayerController m_Player;
     private List<IRestartGameElement> m_RestartGameElements;
@@ -20,6 +22,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        m_CoinManager = GetComponent<CoinManager>();
+        m_StarManager= GetComponent<StarManager>();
 
         m_RestartGameElements = new List<IRestartGameElement>();
     }
@@ -56,4 +61,16 @@ public class GameManager : MonoBehaviour
             l_element.RestartGame();
         }
     }
+
+    public void PickCoin()
+    {
+        m_CoinManager.AddCoin();
+    }
+
+    public void PickStar()
+    {
+        m_StarManager.AddStar();
+    }
+
+
 }

@@ -9,12 +9,20 @@ public class StarItem : Item
     {
         return true;
     }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Pick();
+        }
+    }
 
     public override void Pick()
     { 
         // AudioManager._Instance.PlaySound()
+        GameManager.GetInstance().PickStar();
         base.Pick();
-        GameManager.GetInstance().GetPlayer().Heal();
         
     }
 }

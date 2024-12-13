@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3152759267070683048}
   - component: {fileID: 5958962905042652354}
   - component: {fileID: 2120919532447911409}
+  - component: {fileID: 5539464782501999865}
+  - component: {fileID: 5093652534248468302}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -57,3 +59,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6eda61b18fcb5f478a7f02e95476b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5539464782501999865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6624563947547066179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3aa5761f159a540b07743dd032081f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinCount: 0
+  coinText: {fileID: 0}
+--- !u!114 &5093652534248468302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6624563947547066179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c114579cb67456408f898bace0da00b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  starsCount: 0
+  starsText: {fileID: 0}
