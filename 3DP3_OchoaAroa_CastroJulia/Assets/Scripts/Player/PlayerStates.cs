@@ -13,11 +13,11 @@ public enum EPlayerState
     DEAD
 }
 
-public class IdleState : BState<EPlayerState>
+public class PIdleState : BState<EPlayerState>
 {
     private PlayerStateMachine m_PlayerStateMachine;
     
-    public IdleState(PlayerStateMachine playerController) : base (EPlayerState.IDLE)
+    public PIdleState(PlayerStateMachine playerController) : base (EPlayerState.IDLE)
     {
         m_PlayerStateMachine = playerController;
     }
@@ -35,22 +35,22 @@ public class IdleState : BState<EPlayerState>
             InputManager.Instance.Left.Hold || InputManager.Instance.Right.Hold)
         {
             Debug.Log("Moving");
-            m_PlayerStateMachine.QueueNextState(new WalkingState(m_PlayerStateMachine));
+            m_PlayerStateMachine.QueueNextState(new PWalkingState(m_PlayerStateMachine));
         }
         
         if(InputManager.Instance.Space.Tap && m_PlayerStateMachine.CanJump())
         {
-            m_PlayerStateMachine.QueueNextState(new JumpingState(m_PlayerStateMachine));
+            m_PlayerStateMachine.QueueNextState(new PJumpingState(m_PlayerStateMachine));
         }
     }
 
     public override EPlayerState OnNextState() => EPlayerState.IDLE;
 }
 
-public class WalkingState : BState<EPlayerState>
+public class PWalkingState : BState<EPlayerState>
 {
     private PlayerStateMachine m_PlayerStateMachine;
-    public WalkingState(PlayerStateMachine playerController) : base(EPlayerState.WALK)
+    public PWalkingState(PlayerStateMachine playerController) : base(EPlayerState.WALK)
     {
         m_PlayerStateMachine = playerController;
     }
@@ -87,7 +87,7 @@ public class WalkingState : BState<EPlayerState>
         {
             if (InputManager.Instance.Shift.Hold)
             {
-                m_PlayerStateMachine.QueueNextState(new RunningState(m_PlayerStateMachine));
+                m_PlayerStateMachine.QueueNextState(new PRunningState(m_PlayerStateMachine));
                 return;
             }
 
@@ -96,22 +96,22 @@ public class WalkingState : BState<EPlayerState>
         }
         else
         {
-            m_PlayerStateMachine.QueueNextState(new IdleState(m_PlayerStateMachine));
+            m_PlayerStateMachine.QueueNextState(new PIdleState(m_PlayerStateMachine));
         }
 
         if (InputManager.Instance.Space.Tap && m_PlayerStateMachine.CanJump())
         {
-            m_PlayerStateMachine.QueueNextState(new JumpingState(m_PlayerStateMachine));
+            m_PlayerStateMachine.QueueNextState(new PJumpingState(m_PlayerStateMachine));
         }
     }
 
     public override EPlayerState OnNextState() => EPlayerState.WALK;
 }
 
-public class RunningState : BState<EPlayerState>
+public class PRunningState : BState<EPlayerState>
 {
     private PlayerStateMachine m_PlayerStateMachine;
-    public RunningState(PlayerStateMachine playerController) : base(EPlayerState.RUN)
+    public PRunningState(PlayerStateMachine playerController) : base(EPlayerState.RUN)
     {
         m_PlayerStateMachine = playerController;
     }
@@ -148,7 +148,7 @@ public class RunningState : BState<EPlayerState>
         {
             if (!InputManager.Instance.Shift.Hold)
             {
-                m_PlayerStateMachine.QueueNextState(new WalkingState(m_PlayerStateMachine));
+                m_PlayerStateMachine.QueueNextState(new PWalkingState(m_PlayerStateMachine));
                 return;
             }
 
@@ -157,24 +157,24 @@ public class RunningState : BState<EPlayerState>
         }
         else
         {
-            m_PlayerStateMachine.QueueNextState(new IdleState(m_PlayerStateMachine));
+            m_PlayerStateMachine.QueueNextState(new PIdleState(m_PlayerStateMachine));
         }
 
         if (InputManager.Instance.Space.Tap && m_PlayerStateMachine.CanJump())
         {
-            m_PlayerStateMachine.QueueNextState(new JumpingState(m_PlayerStateMachine));
+            m_PlayerStateMachine.QueueNextState(new PJumpingState(m_PlayerStateMachine));
         }
     }
 
     public override EPlayerState OnNextState() => EPlayerState.RUN;
 }
 
-public class JumpingState : BState<EPlayerState>
+public class PJumpingState : BState<EPlayerState>
 {
     private PlayerStateMachine m_PlayerStateMachine;
     private bool m_IsFalling;
     
-    public JumpingState(PlayerStateMachine playerController) : base(EPlayerState.JUMP)
+    public PJumpingState(PlayerStateMachine playerController) : base(EPlayerState.JUMP)
     {
         m_PlayerStateMachine = playerController;
     }
@@ -202,7 +202,7 @@ public class JumpingState : BState<EPlayerState>
         {
             if (m_IsFalling)
             {
-                m_PlayerStateMachine.QueueNextState(new IdleState(m_PlayerStateMachine));
+                m_PlayerStateMachine.QueueNextState(new PIdleState(m_PlayerStateMachine));
                 return;
             }
         }
@@ -216,11 +216,11 @@ public class JumpingState : BState<EPlayerState>
     public override EPlayerState OnNextState() => EPlayerState.JUMP;
 }
 
-public class PunchingState : BState<EPlayerState>
+public class PPunchingState : BState<EPlayerState>
 {
     private PlayerStateMachine m_PlayerStateMachine;
     
-    public PunchingState(PlayerStateMachine playerController) : base(EPlayerState.PUNCH)
+    public PPunchingState(PlayerStateMachine playerController) : base(EPlayerState.PUNCH)
     {
         m_PlayerStateMachine = playerController;
     }

@@ -67,8 +67,8 @@ public class PlayerStateMachine : StateMachine<EPlayerState>, IRestartGameElemen
         
         
     }
-    
-    private void Start()
+
+    protected override void Start()
     {
         base.Start();
         
@@ -79,7 +79,7 @@ public class PlayerStateMachine : StateMachine<EPlayerState>, IRestartGameElemen
 
     protected override BState<EPlayerState> CreateInitialState()
     {
-        return new IdleState(this);
+        return new PIdleState(this);
     }
     
     public void Move(Vector3 movement, float speedMultiplier)
