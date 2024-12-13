@@ -22,9 +22,15 @@ public class CameraController : MonoBehaviour
     
     [Header("Components")]
     [SerializeField] private Transform m_FollowObject;
+
+    [Header("Smooth Movement")] [SerializeField]
+    private float m_SmoothTime = 0.2f; 
     
     private float m_Yaw;
     private float m_Pitch;
+    private float m_ResetTime = 5f;
+    private float m_InactivityTimer;
+    private Vector3 m_CurrentVel; 
     
     private void Start()
     {
@@ -36,6 +42,15 @@ public class CameraController : MonoBehaviour
         float l_horizontalAxis = InputManager.Instance.Look.x;
         float l_verticalAxis = InputManager.Instance.Look.y;
         
+        if (Mathf.Abs(l_horizontalAxis) > 0.01f || Mathf.Abs(l_verticalAxis) > 0.01f)
+        {
+            m_InactivityTimer = 0f;
+        }
+        else
+        {
+            m_InactivityTimer += Time.deltaTime;
+        }
+        
         Vector3 l_lookDirection = m_FollowObject.position - transform.position;
         float l_distToPlayer = l_lookDirection.magnitude;
         l_lookDirection.y = 0.0f;
@@ -43,8 +58,20 @@ public class CameraController : MonoBehaviour
         
         m_Yaw = Mathf.Atan2(l_lookDirection.x, l_lookDirection.z) * Mathf.Rad2Deg;
         
-        m_Yaw += l_horizontalAxis * m_YawSpeed * Time.deltaTime;
-        m_Pitch += l_verticalAxis * m_PitchSpeed * Time.deltaTime;
+        if (m_InactivityTimer >= m_ResetTime)
+        {
+            float targetYaw = m_FollowObject.eulerAngles.y;
+            float targetPitch = (m_MinPitch + m_MaxPitch) / 2f;
+
+            m_Yaw = Mathf.LerpAngle(m_Yaw, targetYaw, Time.deltaTime / m_SmoothTime); 
+            m_Pitch = Mathf.Lerp(m_Pitch, targetPitch, Time.deltaTime / m_SmoothTime); 
+        }
+        else { 
+            m_Yaw += l_horizontalAxis * m_YawSpeed * Time.deltaTime;
+            m_Pitch += l_verticalAxis * m_PitchSpeed * Time.deltaTime;
+            
+        }
+       
         
         m_Pitch = Mathf.Clamp(m_Pitch, m_MinPitch, m_MaxPitch);
         
@@ -75,7 +102,8 @@ public class CameraController : MonoBehaviour
             l_desiredPos = m_FollowObject.position - l_cameraForward * l_distToPlayer;
         }
         
-        transform.position = l_desiredPos;
-        transform.LookAt(m_FollowObject.position);
+       transform.position = l_desiredPos;
+       transform.LookAt(m_FollowObject.position);
+      
     }
 }
