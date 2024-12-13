@@ -108,11 +108,6 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 		        
 	        }
         }
-	       
-        
-        
-        
-        
         
         HandleJump();
 		

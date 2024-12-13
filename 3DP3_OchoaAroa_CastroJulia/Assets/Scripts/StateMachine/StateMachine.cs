@@ -38,17 +38,17 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         m_CurrentState.OnTriggerEnter(other);
     }
 
-    void OnTriggerStay(Collider other)
+    protected virtual void OnTriggerStay(Collider other)
     {
         m_CurrentState.OnTriggerStay(other);
     }
 
-    void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         m_CurrentState.OnTriggerExit(other);
     }

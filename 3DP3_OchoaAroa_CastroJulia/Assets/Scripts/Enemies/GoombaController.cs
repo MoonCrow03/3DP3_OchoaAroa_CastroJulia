@@ -60,6 +60,14 @@ public class GoombaController : StateMachine<EGommbaState>, IRestartGameElement
             m_RotationSpeed * Time.deltaTime
         );
     }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            //other.GetComponent<PlayerController>().TakeLive();
+        }
+    }   
     
     public void Kill()
     {
