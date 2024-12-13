@@ -29,8 +29,7 @@ public class GPatrolState : BState<EGommbaState>
 
     public override void OnEnter()
     {
-        Debug.Log("Patrol State");
-        
+        m_GoombaController.m_Animator.SetBool("Walk", true);
         m_CurrentPatrolPositionId = GetTheClosestPatrolPositionId();
         MoveToNextPatrolPosition();
     }
@@ -140,15 +139,13 @@ public class GAlertState : BState<EGommbaState>
         
         if (SeesPlayer())
         {
-            Debug.Log("Player seen!");
             m_NavMeshAgent.isStopped = false;
-            m_GoombaController.QueueNextState(new GChaseState(m_GoombaController, m_NavMeshAgent, m_MaxDistanceToAttack, m_GoombaController.m_RotationSpeed));
+            m_GoombaController.QueueNextState(new GChaseState(m_GoombaController, m_NavMeshAgent, m_MaxDistanceToAttack));
             return;
         }
         
         if (m_ElapseTime > m_AlertDuration)
         {
-            Debug.Log("Player not found, returning to patrol");
             m_NavMeshAgent.isStopped = false;
             m_GoombaController.QueueNextState(new GPatrolState(m_GoombaController, m_NavMeshAgent, m_GoombaController.m_PatrolPositions, m_GoombaController.m_MinDistanceToAlert));
         }
@@ -171,20 +168,16 @@ public class GAlertState : BState<EGommbaState>
 
         l_direction /= l_distance;
 
-        // If player is in range
         if (l_distance < m_MaxDistanceToAttack)
         {
             float l_dotAngle = Vector3.Dot(l_direction, m_GoombaController.transform.forward);
 
-            // If player is in cone of vision
             if (l_dotAngle >= Mathf.Cos(m_ConeAngle * Mathf.Deg2Rad / 2.0f))
             {
-                // Raycast is last to improve performance
                 Ray l_ray = new Ray(l_enemyPosition, l_direction);
 
                 Debug.DrawRay(l_enemyPosition, l_direction * 100f, Color.red);
 
-                // If player is in sight
                 if (!Physics.Raycast(l_ray, l_distance, m_SightLayerMask.value))
                     return true;
             }
@@ -197,25 +190,27 @@ public class GAlertState : BState<EGommbaState>
 public class GChaseState : BState<EGommbaState>
 {
     private float m_MaxDistanceToAttack;
-    private float m_RotationSpeed;
     
     private GoombaController m_GoombaController;
     private NavMeshAgent m_NavMeshAgent;
     
-    public GChaseState(GoombaController goombaController, NavMeshAgent navMeshAgent, float maxDistanceToAttack, float rotationSpeed) : base(EGommbaState.CHASE)
+    public GChaseState(GoombaController goombaController, NavMeshAgent navMeshAgent, float maxDistanceToAttack) : base(EGommbaState.CHASE)
     {
         m_GoombaController = goombaController;
         m_NavMeshAgent = navMeshAgent;
         m_MaxDistanceToAttack = maxDistanceToAttack;
-        m_RotationSpeed = rotationSpeed;
     }
 
     public override void OnEnter()
     {
-        Debug.Log("Chase State");
+        m_GoombaController.m_Animator.SetTrigger("Alert");
+        m_GoombaController.m_Animator.SetBool("Run", true);
     }
 
-    public override void OnExit() { }
+    public override void OnExit()
+    {
+        m_GoombaController.m_Animator.SetBool("Run", false);
+    }
 
     public override void OnUpdate()
     {
@@ -225,12 +220,10 @@ public class GChaseState : BState<EGommbaState>
         
         Vector3 l_playerPosition = l_player.transform.position;
 
-        // Calculate the distance between the drone and the player
         float l_distanceToPlayer = Vector3.Distance(l_playerPosition, m_GoombaController.transform.position);
 
         m_GoombaController.RotateToFindPlayer();
 
-        // If the player is too far away, return to PatrolState
         if (l_distanceToPlayer > m_MaxDistanceToAttack)
         {
             Debug.Log("Player out of range. Switching to Patrol State.");
@@ -238,7 +231,6 @@ public class GChaseState : BState<EGommbaState>
             return;
         }
 
-        // Continue chasing the player
         m_NavMeshAgent.SetDestination(l_playerPosition);
     }
 

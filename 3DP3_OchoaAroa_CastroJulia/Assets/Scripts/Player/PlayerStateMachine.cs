@@ -63,9 +63,6 @@ public class PlayerStateMachine : StateMachine<EPlayerState>, IRestartGameElemen
         m_RightHandPunchCollider.SetActive(false);
         m_RightFootKickCollider.SetActive(false);
         m_Animator.applyRootMotion = false;
-        
-        
-        
     }
 
     protected override void Start()

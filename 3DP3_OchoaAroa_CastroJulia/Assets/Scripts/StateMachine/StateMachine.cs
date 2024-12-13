@@ -34,7 +34,6 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
         }
         else
         {
-            Debug.Log("Current state: " + m_CurrentState.m_StateKey);
             m_CurrentState.OnUpdate();
         }
     }
@@ -74,5 +73,6 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
         m_CurrentState.OnEnter();
         
         m_IsTransitioningState = false;
+        Debug.Log("Current state: " + m_CurrentState.m_StateKey);
     }
 }
