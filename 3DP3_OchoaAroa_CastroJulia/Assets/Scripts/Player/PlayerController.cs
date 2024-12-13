@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	private static readonly int _longJump = Animator.StringToHash("LongJump");
 	private static readonly int _falling = Animator.StringToHash("Falling");
 	private static readonly int _jumpCombo = Animator.StringToHash("JumpCombo");
+	private static readonly int _idleBreak = Animator.StringToHash("IdleBreak");
 	
 	private static int MAX_JUMPS = 3;
 
@@ -36,8 +37,12 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	[Header("Bridge Parameters")]
 	[SerializeField] private float m_BridgeForce = 100.0f;
 	
+	[Header("Bridge Parameters")]
+	[SerializeField] private float m_IdleBreakTime = 10f;
+	
 	private float m_VerticalSpeed;
 	private int m_CurrentJumpId;
+	private float m_InactivityTimer; 
 	
 	private PlayerHealthSystem m_PlayerHealthSystem;
 	private CharacterController m_CharacterController;
@@ -86,9 +91,28 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
         l_movement.Normalize();
 
         if (l_hasMovement)
+        {
 	        HandleMovement(ref l_movement);
+	        m_InactivityTimer = 0f; 
+	        m_Animator.SetBool(_idleBreak, false);
+        }
+
         else
+        {
 	        m_Animator.SetFloat(_speed, 0.0f);
+	        m_InactivityTimer += Time.deltaTime;
+
+	        if (m_InactivityTimer>=m_IdleBreakTime)
+	        {
+		        m_Animator.SetBool(_idleBreak, true);
+		        
+	        }
+        }
+	       
+        
+        
+        
+        
         
         HandleJump();
 		
