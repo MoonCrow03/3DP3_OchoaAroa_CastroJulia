@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,13 @@ public class GoombaController : StateMachine<EGommbaState>, IRestartGameElement
     [Header("General Settings")]
     public float m_RotationSpeed = 100.0f;
     public float m_MaxDistanceToAttack = 15.0f;
+    
+    [Header("Player Bounce Settings")]
+    [SerializeField] private float m_MaxAngleToKillGoomba = 15.0f;
+    [SerializeField] private float m_BounceDuration = 0.25f;
+    [SerializeField] private float m_GoombaBounceDistance = 5.0f;
+    [SerializeField] private float m_PlayerBounceDistance = 5.0f;
+    [SerializeField] private float m_PlayerBounceVerticalSpeed = 3.0f;
     
     [Header("Patrol State Settings")]
     public List<Transform> m_PatrolPositions;
@@ -65,11 +73,50 @@ public class GoombaController : StateMachine<EGommbaState>, IRestartGameElement
     {
         if (other.CompareTag("Player"))
         {
-            //other.GetComponent<PlayerController>().TakeLive();
+            if (IsUpperHit(other.transform))
+            {
+                PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+                playerController.BounceUp();
+                Kill();
+            }
+            else
+            {
+                Vector3 goombaBounceDirection = -other.transform.forward * m_GoombaBounceDistance;
+                Vector3 playerBounceDirection = other.transform.forward * m_PlayerBounceDistance + Vector3.up * m_PlayerBounceVerticalSpeed;
+
+                StartCoroutine(BounceObject(transform, goombaBounceDirection, m_BounceDuration));
+                StartCoroutine(BounceObject(other.transform, playerBounceDirection, m_BounceDuration));
+            }
         }
-    }   
+    }
     
-    public void Kill()
+    private bool IsUpperHit(Transform playerTransform)
+    {
+        Vector3 goombaToPlayer = playerTransform.position - transform.position;
+        goombaToPlayer.Normalize();
+
+        float dotAngle = Vector3.Dot(goombaToPlayer, Vector3.up);
+        return dotAngle >= Mathf.Cos(m_MaxAngleToKillGoomba * Mathf.Deg2Rad);
+    }
+    
+    private IEnumerator BounceObject(Transform obj, Vector3 bounceDirection, float duration)
+    {
+        float elapsedTime = 0f;
+        Vector3 startPosition = obj.position;
+        Vector3 targetPosition = startPosition + bounceDirection;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+            obj.position = Vector3.Lerp(startPosition, targetPosition, t);
+            yield return null;
+        }
+
+        obj.position = targetPosition;
+    }
+    
+    private void Kill()
     {
         gameObject.SetActive(false);
     }
@@ -77,6 +124,7 @@ public class GoombaController : StateMachine<EGommbaState>, IRestartGameElement
     public void RestartGame()
     {
         gameObject.SetActive(true);
+        
         m_NavMeshAgent.enabled = false;
         transform.position = m_InitialPosition;
         transform.rotation = m_InitialRotation;
@@ -91,32 +139,24 @@ public class GoombaController : StateMachine<EGommbaState>, IRestartGameElement
     private void DrawVisionCone()
     {
         Vector3 l_enemyPosition = transform.position + Vector3.up * 1.6f;  // Adjust position to eye height
-
-        // Define the forward direction
+        
         Vector3 l_forward = transform.forward;
 
-        // Set the number of segments to draw a smooth cone
         int l_coneSegments = 30;
 
-        // Calculate the angle of each segment in radians
         float l_halfConeAngleRad = m_ConeAngle * Mathf.Deg2Rad / 2.0f;
         float l_segmentAngle = m_ConeAngle * Mathf.Deg2Rad / l_coneSegments;
 
-        // Draw the cone with rays extending to the max attack distance
         for (int i = 0; i <= l_coneSegments; i++)
         {
-            // Calculate the current segment angle
             float currentAngle = -l_halfConeAngleRad + i * l_segmentAngle;
 
-            // Rotate the forward direction to get the current segment direction
             Vector3 direction = Quaternion.Euler(0, currentAngle * Mathf.Rad2Deg, 0) * l_forward;
 
-            // Draw a ray for each segment reaching max attack distance
             Gizmos.color = Color.green;  // Set color to green
             Gizmos.DrawRay(l_enemyPosition, direction * m_MaxDistanceToAttack);  // Ray represents vision cone
         }
 
-        // Draw a circle at max attack distance to show the cone's far edge
         Gizmos.color = Color.blue;  // Change color for the circle
         Gizmos.DrawWireSphere(l_enemyPosition + l_forward * m_MaxDistanceToAttack, m_MaxDistanceToAttack * Mathf.Sin(l_halfConeAngleRad));
     }

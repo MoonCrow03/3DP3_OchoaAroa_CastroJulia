@@ -224,6 +224,10 @@ MonoBehaviour:
   m_MaxAngleToKillGoomba: 15
   m_MinVerticalSpeedToKillGoomba: -1
   m_BridgeForce: 5
+  m_GoombaBounceDistance: 5
+  m_GoombaBounceDuration: 0.2
+  m_PlayerBounceVerticalSpeed: 3
+  m_PlayerBounceForwardSpeed: 10
   m_IdleBreakTime: 10
 --- !u!114 &4951225590765712928
 MonoBehaviour:

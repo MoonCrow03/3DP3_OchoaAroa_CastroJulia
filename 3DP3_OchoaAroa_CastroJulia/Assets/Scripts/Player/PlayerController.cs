@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour, IRestartGameElement
 {
@@ -31,13 +32,12 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	[SerializeField] private float m_JumpVerticalSpeed = 5.0f;
 	[SerializeField] private float m_LongJumpVerticalSpeed = 7.0f;
 	[SerializeField] private float m_KillJumpVerticalSpeed = 8.0f;
-	[SerializeField] private float m_MaxAngleToKillGoomba = 15.0f;
 	[SerializeField] private float m_MinVerticalSpeedToKillGoomba = -1.0f;
 	
-	[Header("Bridge Parameters")]
+	[Header("Other Parameters")]
 	[SerializeField] private float m_BridgeForce = 100.0f;
 	
-	[Header("Bridge Parameters")]
+	[Header("Animation Parameters")]
 	[SerializeField] private float m_IdleBreakTime = 10f;
 	
 	private float m_VerticalSpeed;
@@ -222,26 +222,11 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    {
 		    hit.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(-hit.normal * m_BridgeForce, hit.point);
 	    }
-	    if (hit.gameObject.CompareTag("Goomba"))
-	    {
-		    if (IsUpperHit(hit.transform))
-		    {
-			    hit.gameObject.GetComponent<GoombaController>().Kill();
-			    m_VerticalSpeed = m_KillJumpVerticalSpeed;
-		    }
-		    else
-		    {
-			    //TODO: Que el goomba y el player salgan rebotados
-		    }
-	    }
     }
 
-    private bool IsUpperHit(Transform GoombaTransform)
+    public void BounceUp()
     {
-	    Vector3 l_GoombaDirection = transform.position - GoombaTransform.position;
-	    l_GoombaDirection.Normalize();
-	    float l_DotAngle = Vector3.Dot(l_GoombaDirection, Vector3.up);
-	    return l_DotAngle >= Mathf.Cos(m_MaxAngleToKillGoomba * Mathf.Deg2Rad) && m_VerticalSpeed <= m_MinVerticalSpeedToKillGoomba;
+	    m_VerticalSpeed = m_KillJumpVerticalSpeed;
     }
     
     public void EnableHitCollider(EPunchType punchType, bool active)

@@ -2436,6 +2436,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goomba
       objectReference: {fileID: 0}
+    - target: {fileID: 9132324643527225018, guid: 1bceae5f8ed03ec4b959f8f19db01264, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3734,10 +3738,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1246175170}
-    - target: {fileID: 1156510383312469373, guid: 5f1680036b3c19f45a5b793ce0a842b3, type: 3}
-      propertyPath: m_IdleBreakTime
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1993194820734894156, guid: 5f1680036b3c19f45a5b793ce0a842b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 38.45
