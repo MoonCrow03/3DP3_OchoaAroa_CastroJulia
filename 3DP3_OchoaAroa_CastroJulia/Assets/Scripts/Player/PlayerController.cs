@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	private static readonly int _idleBreak = Animator.StringToHash("IdleBreak");
 	
 	private static int MAX_JUMPS = 3;
+	private static readonly int _restart = Animator.StringToHash("Restart");
 
 	[Header("Movement Settings")]
 	[SerializeField] private float m_WalkSpeed = 5f;
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	
 	public Vector3 GetMovementVelocity() => m_CharacterController.velocity;
 	public bool IsGrounded() => m_CharacterController.isGrounded;
+	public bool IsDead => m_PlayerHealthSystem.IsDead;
 
     private void Awake()
     {
@@ -266,7 +268,12 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    m_InitialRotation = rotation;
 	}
 
-    public void RestartGame()
+	public void HardRestartGame()
+	{
+		RestartGame();
+	}
+
+	public void RestartGame()
     {
 	    m_CharacterController.enabled = false;
 	    
@@ -274,5 +281,9 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    transform.rotation = m_InitialRotation;
 	    
 	    m_CharacterController.enabled = true;
+	    
+	    m_Animator.SetTrigger(_restart);
     }
+
+    public void PauseGame() { }
 }

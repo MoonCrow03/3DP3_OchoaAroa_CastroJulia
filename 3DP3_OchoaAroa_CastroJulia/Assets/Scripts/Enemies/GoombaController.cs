@@ -125,7 +125,12 @@ public class GoombaController : StateMachine<EGommbaState>, IRestartGameElement
     {
         gameObject.SetActive(false);
     }
-    
+
+    public void HardRestartGame()
+    {
+        RestartGame();
+    }
+
     public void RestartGame()
     {
         gameObject.SetActive(true);
@@ -135,7 +140,12 @@ public class GoombaController : StateMachine<EGommbaState>, IRestartGameElement
         transform.rotation = m_InitialRotation;
         m_NavMeshAgent.enabled = true;
     }
-    
+
+    public void PauseGame()
+    {
+        m_NavMeshAgent.enabled = false;
+    }
+
     private void OnDrawGizmos()
     {
         DrawVisionCone();

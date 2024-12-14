@@ -6487,14 +6487,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.108051375
-        functionName: DeadSound
-        data: 
-        objectReferenceParameter: {fileID: 8300000, guid: e22b47f8e439d5a4d9a40a0af99745a1, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask:
       - path: 
         weight: 1

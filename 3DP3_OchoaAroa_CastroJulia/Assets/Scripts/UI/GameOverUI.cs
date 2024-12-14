@@ -24,11 +24,18 @@ public class GameOverUI : MonoBehaviour, IRestartGameElement
     private void OnEnable()
     {
         GameEvents.OnShowGameOverUI += ShowGameOverUI;
+        GameEvents.OnShowHardGameOverUI += ShowHardGameOverUI;
     }
 
     private void OnDisable()
     {
         GameEvents.OnShowGameOverUI -= ShowGameOverUI;
+        GameEvents.OnShowHardGameOverUI -= ShowHardGameOverUI;
+    }
+    
+    private void ShowHardGameOverUI(bool show)
+    {
+        StartCoroutine(AfterGameOverUI(show));
     }
 
     private void ShowGameOverUI(bool show)
@@ -53,9 +60,34 @@ public class GameOverUI : MonoBehaviour, IRestartGameElement
         
         GameManager.GetInstance().RestartGameElements();
     }
+    
+    private IEnumerator AfterHardGameOverUI(bool show)
+    {
+        float l_elapseTime = 0.0f;
+
+        while (l_elapseTime < m_FadeDuration)
+        {
+            l_elapseTime += Time.deltaTime;
+            m_CanvasGroup.alpha = Mathf.Lerp(0.0f, 1.0f, l_elapseTime / m_FadeDuration);
+            yield return null;
+        }
+
+        m_CanvasGroup.alpha = 1.0f;
+        
+        yield return new WaitForSeconds(m_WaitTimeAfterFade);
+        
+        GameManager.GetInstance().HardRestartGame();
+    }
+
+    public void HardRestartGame()
+    {
+        RestartGame();
+    }
 
     public void RestartGame()
     {
         m_CanvasGroup.alpha = 0.0f;
     }
+
+    public void PauseGame() { }
 }

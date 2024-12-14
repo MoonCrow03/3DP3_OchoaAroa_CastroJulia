@@ -12,6 +12,8 @@ public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
     [Header("Health Settings")]
     [SerializeField] private int m_DefaultLives = 4;
     [SerializeField] private int m_MaxHealth = 8;
+    
+    public bool IsDead => m_CurrentHealth < 0;
 
     private int m_CurrentLives;
     private int m_CurrentHealth;
@@ -29,6 +31,9 @@ public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
 
         m_CurrentLives = m_DefaultLives;
         m_CurrentHealth = m_MaxHealth;
+        
+        GameEvents.TriggerUpdateLives(m_CurrentLives);
+        GameEvents.TriggerUpdateHealthBar(m_CurrentHealth, m_MaxHealth);
     }
     
     public void TakeDamage(int p_damage)
@@ -48,13 +53,15 @@ public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
     public void TakeLive()
     {
         m_CurrentLives -= 1;
+        GameEvents.TriggerUpdateLives(m_CurrentLives);
         m_Animator.SetTrigger(_die);
         
-        if (m_CurrentLives <= 0)
+        if (m_CurrentLives < 0)
         {
             m_CurrentLives = 0;
-            Die();
         }
+        
+        Die();
     }
 
     public void GiveLive()
@@ -64,11 +71,24 @@ public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
 
     private void Die()
     {
-        GameManager.GetInstance().RestartGame();
+        if(m_CurrentLives > 0)
+            GameManager.GetInstance().RestartGame();
+        else
+            GameManager.GetInstance().GameOver();
+    }
+
+    public void HardRestartGame()
+    {
+        m_CurrentLives = m_DefaultLives;
+        m_CurrentHealth = m_MaxHealth;
+        GameEvents.TriggerUpdateHealthBar(m_CurrentHealth, m_MaxHealth);
     }
 
     public void RestartGame()
     {
-        m_CurrentLives = m_DefaultLives;
+        m_CurrentHealth = m_MaxHealth;
+        GameEvents.TriggerUpdateHealthBar(m_CurrentHealth, m_MaxHealth);
     }
+
+    public void PauseGame() { }
 }

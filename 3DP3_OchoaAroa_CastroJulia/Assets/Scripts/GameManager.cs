@@ -51,14 +51,37 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        PauseGame();
         GameEvents.TriggerShowGameOverUI(true);
+    }
+    
+    public void GameOver()
+    {
+        PauseGame();
+        GameEvents.TriggerShowHardGameOverUI(true);
+    }
+    
+    public void HardRestartGame()
+    {
+        foreach (IRestartGameElement element in m_RestartGameElements)
+        {
+            element.HardRestartGame();
+        }
     }
 
     public void RestartGameElements()
     {
-        foreach (IRestartGameElement l_element in m_RestartGameElements)
+        foreach (IRestartGameElement element in m_RestartGameElements)
         {
-            l_element.RestartGame();
+            element.RestartGame();
+        }
+    }
+    
+    public void PauseGame()
+    {
+        foreach (IRestartGameElement element in m_RestartGameElements)
+        {
+            element.PauseGame();
         }
     }
 
@@ -71,6 +94,4 @@ public class GameManager : MonoBehaviour
     {
         m_StarManager.AddStar();
     }
-
-
 }

@@ -28,6 +28,17 @@ public class GameEvents
         }
     }
     
+    public delegate void ShowHardGameOverUI(bool show);
+    public static event ShowHardGameOverUI OnShowHardGameOverUI;
+    
+    public static void TriggerShowHardGameOverUI(bool show)
+    {
+        if (OnShowHardGameOverUI != null)
+        {
+            OnShowHardGameOverUI(show);
+        }
+    }
+    
     public delegate void UpdateHealthBar(int healthPercentage, int maxHealth);
     
     public static event UpdateHealthBar OnUpdateHealthBar;

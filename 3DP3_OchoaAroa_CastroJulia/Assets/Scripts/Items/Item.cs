@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour, IRestartGameElement
 {
     public abstract bool CanPick();
 
@@ -8,4 +8,13 @@ public abstract class Item : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public void HardRestartGame()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void RestartGame() { }
+
+    public void PauseGame() { }
 }

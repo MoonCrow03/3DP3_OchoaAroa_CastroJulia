@@ -144,7 +144,12 @@ public class PlayerStateMachine : StateMachine<EPlayerState>, IRestartGameElemen
         m_InitialPosition = position;
         m_InitialRotation = rotation;
     }
-    
+
+    public void HardRestartGame()
+    {
+        
+    }
+
     public void RestartGame()
     {
         m_CharacterController.enabled = false;
@@ -153,5 +158,10 @@ public class PlayerStateMachine : StateMachine<EPlayerState>, IRestartGameElemen
         transform.rotation = m_InitialRotation;
 	    
         m_CharacterController.enabled = true;
+    }
+
+    public void PauseGame()
+    {
+        
     }
 }

@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class CoinItem : Item
 {
-   
-
     public override bool CanPick()
     {
         return true;
@@ -25,7 +23,5 @@ public class CoinItem : Item
         // AudioManager._Instance.PlaySound()
         GameManager.GetInstance().PickCoin();
         base.Pick();
-        
     }
-
 }

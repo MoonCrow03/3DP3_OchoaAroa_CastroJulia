@@ -38,6 +38,8 @@ public class GPatrolState : BState<EGommbaState>
 
     public override void OnUpdate()
     {
+        if(!m_NavMeshAgent.enabled) return;
+        
         if(!m_NavMeshAgent.hasPath && m_NavMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
         {
             m_CurrentPatrolPositionId = GetNextCurrentPatrolPositionId(m_CurrentPatrolPositionId);
@@ -135,6 +137,8 @@ public class GAlertState : BState<EGommbaState>
     {
         m_ElapseTime += Time.deltaTime;
         
+        if(!m_NavMeshAgent.enabled) return;
+        
         m_GoombaController.RotateToFindPlayer();
         
         if (SeesPlayer())
@@ -214,6 +218,8 @@ public class GChaseState : BState<EGommbaState>
 
     public override void OnUpdate()
     {
+        if(!m_NavMeshAgent.enabled) return;
+        
         PlayerController l_player = GameManager.GetInstance().GetPlayer();
 
         if (l_player == null) return;
