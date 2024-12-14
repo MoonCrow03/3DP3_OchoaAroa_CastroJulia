@@ -9,12 +9,14 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	private static readonly int _speed = Animator.StringToHash("Speed");
 	private static readonly int _jump = Animator.StringToHash("Jump");
 	private static readonly int _longJump = Animator.StringToHash("LongJump");
+	private static readonly int _wallJump = Animator.StringToHash("WallJump");
+	private static readonly int _wallSlide = Animator.StringToHash("WallSlide");
 	private static readonly int _falling = Animator.StringToHash("Falling");
 	private static readonly int _jumpCombo = Animator.StringToHash("JumpCombo");
 	private static readonly int _idleBreak = Animator.StringToHash("IdleBreak");
+	private static readonly int _restart = Animator.StringToHash("Restart");
 	
 	private static int MAX_JUMPS = 3;
-	private static readonly int _restart = Animator.StringToHash("Restart");
 
 	[Header("Movement Settings")]
 	[SerializeField] private float m_WalkSpeed = 5f;
@@ -44,6 +46,8 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	private float m_VerticalSpeed;
 	private int m_CurrentJumpId;
 	private float m_InactivityTimer; 
+	private bool m_IsTouchingWall;
+	private Vector3 m_WallNormal;
 	
 	private PlayerHealthSystem m_PlayerHealthSystem;
 	private CharacterController m_CharacterController;
@@ -162,14 +166,6 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    transform.rotation = Quaternion.Lerp(transform.rotation, l_targetRotation, m_LerpRotation * Time.deltaTime);
     }
     
-    private void HandleJump()
-    {
-	    if (InputManager.Instance.Space.Tap && CanJump())
-	    {
-		    ExecuteJump();
-	    }
-    }
-    
     private void ApplyMovement(ref Vector3 l_movement)
     {
 	    l_movement *= m_WalkSpeed * Time.deltaTime;
@@ -194,6 +190,22 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    m_Animator.SetBool(_falling, !l_isGrounded);
     }
     
+    private void HandleJump()
+    {
+	    if (InputManager.Instance.Space.Tap)
+	    {
+		    if (m_IsTouchingWall && CanJump())
+		    {
+			    Debug.Log("Wall Jump");
+			    ExecuteWallJump();
+		    }
+		    else if (CanJump())
+		    {
+			    ExecuteJump();
+		    }
+	    }
+    }
+    
     private bool CanJump()
     {
 	    return m_CurrentJumpId < MAX_JUMPS;
@@ -213,9 +225,21 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    }
 	    
 	    m_CurrentJumpId++;
-	    Debug.Log("Jump id: " + m_CurrentJumpId);
-	    
 	    m_Animator.SetInteger(_jumpCombo, m_CurrentJumpId);
+    }
+
+    private void ExecuteWallJump()
+    {
+	    m_VerticalSpeed = m_JumpVerticalSpeed;
+	    
+	    Vector3 wallJumpDirection = -m_WallNormal;
+	    wallJumpDirection.y = 0;
+	    m_CharacterController.Move(wallJumpDirection * Time.deltaTime * m_RunSpeed);
+	    
+	    m_IsTouchingWall = false;
+	    
+	    m_Animator.SetTrigger(_wallJump);
+	    m_CurrentJumpId++;
     }
     
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -224,6 +248,18 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    {
 		    hit.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(-hit.normal * m_BridgeForce, hit.point);
 	    }
+
+	    if (Mathf.Abs(hit.normal.y) < 0.1f)
+	    {
+		    m_IsTouchingWall = true;
+		    m_WallNormal = hit.normal;
+	    }
+	    else
+	    {
+		    m_IsTouchingWall = false;
+	    }
+	    
+	    m_Animator.SetBool(_wallSlide, m_IsTouchingWall);
     }
 
     public void BounceUp()
