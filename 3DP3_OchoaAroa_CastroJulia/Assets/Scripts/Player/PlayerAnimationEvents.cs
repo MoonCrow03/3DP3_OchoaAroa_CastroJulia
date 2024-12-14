@@ -57,4 +57,16 @@ public class PlayerAnimationEvents : MonoBehaviour
         AudioClip l_AudioClip = (AudioClip) animationEvent.objectReferenceParameter;
         AudioSource.PlayClipAtPoint(l_AudioClip, transform.position);
     }
+    
+    public void DeathSound(AnimationEvent animationEvent)
+    {
+        AudioClip l_AudioClip = (AudioClip) animationEvent.objectReferenceParameter;
+        AudioSource.PlayClipAtPoint(l_AudioClip, transform.position);
+    }
+    
+    public void HitSound1(AnimationEvent animationEvent)
+    {
+        AudioClip l_AudioClip = (AudioClip) animationEvent.objectReferenceParameter;
+        AudioSource.PlayClipAtPoint(l_AudioClip, transform.position);
+    }
 }

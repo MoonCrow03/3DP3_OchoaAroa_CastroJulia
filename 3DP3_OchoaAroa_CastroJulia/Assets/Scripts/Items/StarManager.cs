@@ -7,22 +7,16 @@ using UnityEngine.UI;
 
 public class StarManager : MonoBehaviour
 {
-    public int starsCount = 0;
-    public Text starsText;
-
+    public int m_StarsCount = 5;
+    
     private void Start()
     {
-        UpdateUI();
+        GameEvents.TriggerUpdateLives(m_StarsCount);
     }
 
     public void AddStar()
     {
-        starsCount ++;
-        UpdateUI();
-    }
-
-    private void UpdateUI()
-    {
-        starsText.text = starsCount.ToString();
+        m_StarsCount++;
+        GameEvents.TriggerUpdateLives(m_StarsCount);
     }
 }

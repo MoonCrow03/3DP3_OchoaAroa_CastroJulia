@@ -15,6 +15,7 @@ public class GoombaController : StateMachine<EGommbaState>, IRestartGameElement
     [SerializeField] private float m_GoombaBounceDistance = 5.0f;
     [SerializeField] private float m_PlayerBounceDistance = 5.0f;
     [SerializeField] private float m_PlayerBounceVerticalSpeed = 3.0f;
+    [SerializeField] private int m_PlayerDamage = 2;
     
     [Header("Patrol State Settings")]
     public List<Transform> m_PatrolPositions;
@@ -81,8 +82,12 @@ public class GoombaController : StateMachine<EGommbaState>, IRestartGameElement
             }
             else
             {
-                Vector3 goombaBounceDirection = -other.transform.forward * m_GoombaBounceDistance;
-                Vector3 playerBounceDirection = other.transform.forward * m_PlayerBounceDistance + Vector3.up * m_PlayerBounceVerticalSpeed;
+                Vector3 impactDirection = (transform.position - other.transform.position).normalized;
+                Vector3 goombaBounceDirection = impactDirection  * m_GoombaBounceDistance;
+                Vector3 playerBounceDirection = -impactDirection  * m_PlayerBounceDistance + Vector3.up * m_PlayerBounceVerticalSpeed;
+                
+                PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+                playerController.TakeDamage(m_PlayerDamage);
 
                 StartCoroutine(BounceObject(transform, goombaBounceDirection, m_BounceDuration));
                 StartCoroutine(BounceObject(other.transform, playerBounceDirection, m_BounceDuration));

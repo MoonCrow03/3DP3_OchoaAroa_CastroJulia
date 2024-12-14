@@ -244,13 +244,18 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 			    break;
 	    }
     }
+    
+    public void TakeDamage(int damage)
+	{
+	    m_PlayerHealthSystem.TakeDamage(damage);
+	}
 
     public void TakeLive()
     {
 	    m_PlayerHealthSystem.TakeLive();
     }
     
-    public void Heal()
+    public void GiveLive()
     {
 	    m_PlayerHealthSystem.GiveLive();
     }

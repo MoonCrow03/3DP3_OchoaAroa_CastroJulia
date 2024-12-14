@@ -5434,7 +5434,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.16666667
+        functionName: HitSound1
+        data: 
+        objectReferenceParameter: {fileID: 8300000, guid: 3c9390658e11ee84498a5ea56246c717, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -6484,7 +6491,7 @@ ModelImporter:
       - time: 0.108051375
         functionName: DeadSound
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: fa7ad1cdd24f13549aa20e4d285ba743, type: 3}
+        objectReferenceParameter: {fileID: 8300000, guid: e22b47f8e439d5a4d9a40a0af99745a1, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

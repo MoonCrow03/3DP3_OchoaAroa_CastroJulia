@@ -211,8 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a542cdf37dbc60b45b11cf145e14f56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_WalkSpeed: 4
-  m_RunSpeed: 8
+  m_WalkSpeed: 3
+  m_RunSpeed: 6
   m_LerpRotation: 16
   m_Camera: {fileID: 0}
   m_LeftHandPunchHitCollider: {fileID: 1844245468469939488}
@@ -221,13 +221,8 @@ MonoBehaviour:
   m_JumpVerticalSpeed: 8
   m_LongJumpVerticalSpeed: 10
   m_KillJumpVerticalSpeed: 10
-  m_MaxAngleToKillGoomba: 15
   m_MinVerticalSpeedToKillGoomba: -1
   m_BridgeForce: 5
-  m_GoombaBounceDistance: 5
-  m_GoombaBounceDuration: 0.2
-  m_PlayerBounceVerticalSpeed: 3
-  m_PlayerBounceForwardSpeed: 10
   m_IdleBreakTime: 10
 --- !u!114 &4951225590765712928
 MonoBehaviour:
@@ -242,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DefaultLives: 4
+  m_MaxHealth: 8
 --- !u!1 &6205892899268163844
 GameObject:
   m_ObjectHideFlags: 0

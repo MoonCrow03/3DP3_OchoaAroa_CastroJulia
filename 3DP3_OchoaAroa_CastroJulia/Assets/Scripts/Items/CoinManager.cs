@@ -7,22 +7,16 @@ using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
-    public int coinCount = 0;
-    public Text coinText;
+    public int m_CoinCount = 0;
 
     private void Start()
     {
-        UpdateUI();
+        GameEvents.TriggerUpdateCoins(m_CoinCount);
     }
 
     public void AddCoin()
     {
-        coinCount ++;
-        UpdateUI();
-    }
-
-    private void UpdateUI()
-    {
-        coinText.text = coinCount.ToString();
+        m_CoinCount++;
+        GameEvents.TriggerUpdateCoins(m_CoinCount);
     }
 }

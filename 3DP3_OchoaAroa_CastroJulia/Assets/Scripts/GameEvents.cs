@@ -28,6 +28,40 @@ public class GameEvents
         }
     }
     
+    public delegate void UpdateHealthBar(int healthPercentage, int maxHealth);
+    
+    public static event UpdateHealthBar OnUpdateHealthBar;
+    
+    public static void TriggerUpdateHealthBar(int healthPercentage, int maxHealth)
+    {
+        if (OnUpdateHealthBar != null)
+        {
+            OnUpdateHealthBar(healthPercentage, maxHealth);
+        }
+    }
+    
+    public delegate void UpdateCoins(int coinCount);
+    public static event UpdateCoins OnUpdateCoins;
+    
+    public static void TriggerUpdateCoins(int coinCount)
+    {
+        if (OnUpdateCoins != null)
+        {
+            OnUpdateCoins(coinCount);
+        }
+    }
+    
+    public delegate void UpdateLives(int starCount);
+    public static event UpdateLives OnUpdateLives;
+    
+    public static void TriggerUpdateLives(int starCount)
+    {
+        if (OnUpdateLives != null)
+        {
+            OnUpdateLives(starCount);
+        }
+    }
+    
     #endregion
     
     
