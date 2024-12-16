@@ -223,6 +223,7 @@ MonoBehaviour:
   m_KillJumpVerticalSpeed: 10
   m_MinVerticalSpeedToKillGoomba: -1
   m_BridgeForce: 5
+  m_GroundedThreshold: 0.005
   m_IdleBreakTime: 10
 --- !u!114 &4951225590765712928
 MonoBehaviour:
@@ -500,7 +501,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.51691437, y: 0.07, z: 0.5410843}
+  m_Size: {x: 0.6, y: 0.2, z: 0.6}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5247163873656176189
 MonoBehaviour:

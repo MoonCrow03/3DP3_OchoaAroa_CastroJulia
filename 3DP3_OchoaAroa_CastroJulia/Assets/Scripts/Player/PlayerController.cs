@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	
 	[Header("Other Parameters")]
 	[SerializeField] private float m_BridgeForce = 100.0f;
+	[SerializeField] private float m_GroundedThreshold = 0.005f;
 	
 	[Header("Animation Parameters")]
 	[SerializeField] private float m_IdleBreakTime = 10f;
@@ -178,15 +179,11 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 	    bool l_isRoof = (l_collisionFlags & CollisionFlags.Above) != 0;
 
 	    if ((l_isGrounded && m_VerticalSpeed < 0.0f) || (l_isRoof && m_VerticalSpeed > 0.0f))
-	    {
 		    m_VerticalSpeed = 0.0f;
-	    }
 
 	    if (l_isGrounded && m_CurrentJumpId != 0)
-	    {
 		    m_CurrentJumpId = 0;
-	    }
-
+	    
 	    m_Animator.SetBool(_falling, !l_isGrounded);
     }
     
