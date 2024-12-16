@@ -19,8 +19,8 @@ public class CoinItem : Item
     }
 
     public override void Pick()
-    { 
-        // AudioManager._Instance.PlaySound()
+    {
+        SoundManager.PlaySound(SoundType.COIN);
         GameManager.GetInstance().PickCoin();
         base.Pick();
     }

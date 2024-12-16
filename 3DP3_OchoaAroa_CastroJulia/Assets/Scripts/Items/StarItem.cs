@@ -20,7 +20,7 @@ public class StarItem : Item
 
     public override void Pick()
     { 
-        // AudioManager._Instance.PlaySound()
+        SoundManager.PlaySound(SoundType.STAR);
         GameManager.GetInstance().PickStar();
         base.Pick();
         
