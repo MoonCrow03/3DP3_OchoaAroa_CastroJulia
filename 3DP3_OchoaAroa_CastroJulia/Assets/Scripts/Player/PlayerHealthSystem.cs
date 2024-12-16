@@ -71,6 +71,8 @@ public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
 
     private void Die()
     {
+        
+        SoundManager.PlaySound(SoundType.GAMEOVER);
         if(m_CurrentLives > 0)
             GameManager.GetInstance().RestartGame();
         else
