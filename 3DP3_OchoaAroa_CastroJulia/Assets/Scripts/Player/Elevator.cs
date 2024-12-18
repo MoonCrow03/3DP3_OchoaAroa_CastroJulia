@@ -1,57 +1,49 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Elevator : MonoBehaviour
 {
-    [Header("Elevator Parameters")]
-    [SerializeField] private float m_ElevatorDotAngle = 0.95f;
-    
-    private Collider m_CurrentElevator;
-    
+    [SerializeField] private float m_MaxAttachingAngle; 
+    GameObject m_Player; 
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Elevator"))
+        if(other.gameObject.GetComponent<PlayerController>() != null)
         {
-            Debug.Log("Enter elevator");
-            if(CanAttachElevator(other))
-                AttachElevator(other);
+            AttachPlayer(other.gameObject);
         }
-    }
-    
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.CompareTag("Elevator") && CanAttachElevator(other) && Vector3.Dot(other.transform.up, transform.up) < m_ElevatorDotAngle)
-            AttachElevator(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Elevator"))
+        if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            if (other == m_CurrentElevator)
-            {
-                Debug.Log("Deattach elevator");
-                DeattachElevator();
-            }
+            DeattachPlayer();
         }
     }
 
-    private void AttachElevator(Collider elevator)
+    private void Update()
     {
-        transform.SetParent(elevator.transform);
-        m_CurrentElevator = elevator;
+        if (Vector3.Angle(transform.up, Vector3.up) > m_MaxAttachingAngle)
+        {
+            DeattachPlayer();
+        }
     }
     
-    private bool CanAttachElevator(Collider other)
+    private void AttachPlayer(GameObject mario)
     {
-        Debug.Log("Dot: " + Vector3.Dot(other.transform.up, transform.up));
-        return m_CurrentElevator == null && Vector3.Dot(other.transform.up, transform.up) >= m_ElevatorDotAngle;
+        mario.transform.parent = transform;
+        m_Player = mario; 
     }
 
-    private void DeattachElevator()
+    private void DeattachPlayer()
     {
-        m_CurrentElevator = null;
-        transform.SetParent(null);
+        if(m_Player != null)
+        {
+            m_Player.transform.parent = null;
+            m_Player = null; 
+        }
     }
 }

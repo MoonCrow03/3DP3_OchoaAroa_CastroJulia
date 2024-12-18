@@ -54,7 +54,6 @@ public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
     {
         m_CurrentLives -= 1;
         GameEvents.TriggerUpdateLives(m_CurrentLives);
-        m_Animator.SetTrigger(_die);
         
         if (m_CurrentLives < 0)
         {
@@ -71,8 +70,8 @@ public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
 
     public void Die()
     {
-        
         SoundManager.PlaySound(SoundType.GAMEOVER);
+        m_Animator.SetTrigger(_die);
         if(m_CurrentLives > 0)
             GameManager.GetInstance().RestartGame();
         else

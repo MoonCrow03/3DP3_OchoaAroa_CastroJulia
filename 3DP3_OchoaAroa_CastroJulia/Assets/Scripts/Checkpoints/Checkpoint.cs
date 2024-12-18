@@ -10,6 +10,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (p_collider.CompareTag("Player"))
         {
+            Debug.Log("Checkpoint reached");
             GameEvents.TriggerSetCheckpoint(m_SpawnPoint.position, m_SpawnPoint.rotation);
         }
     }

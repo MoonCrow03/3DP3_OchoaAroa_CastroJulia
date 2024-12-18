@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 
 	[Header("Animation Parameters")] [SerializeField]
 	private float m_IdleBreakTime = 10f;
+	private float m_GroundedTheresold = 0.005f;
 
 	private float m_VerticalSpeed;
 	private int m_CurrentJumpId;
@@ -187,7 +188,7 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 
 		if (l_isGrounded && m_CurrentJumpId != 0)
 			m_CurrentJumpId = 0;
-
+		
 		m_Animator.SetBool(_falling, !l_isGrounded);
 	}
 
@@ -328,11 +329,19 @@ public class PlayerController : MonoBehaviour, IRestartGameElement
 
 	private void OnTriggerEnter(Collider other)
 	{
-
-
 		if (other.CompareTag("DeadZone"))
 		{
 			m_PlayerHealthSystem.Die();
 		}
+	}
+
+	private void OnEnable()
+	{
+		GameEvents.OnSetCheckpoint += SetCheckPoint;
+	}
+	
+	private void OnDisable()
+	{
+		GameEvents.OnSetCheckpoint -= SetCheckPoint;
 	}
 }
