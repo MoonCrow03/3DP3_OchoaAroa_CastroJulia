@@ -69,7 +69,7 @@ public class PlayerHealthSystem : MonoBehaviour, IRestartGameElement
         m_CurrentLives += 1;
     }
 
-    private void Die()
+    public void Die()
     {
         
         SoundManager.PlaySound(SoundType.GAMEOVER);
